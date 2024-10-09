@@ -5,6 +5,10 @@ import {
   getDateFromFile,
   getWeeklyNote,
   getWeeklyNoteSettings,
+  getMonthlyNote,
+  getMonthlyNoteSettings,
+  getYearlyNote,
+  getYearlyNoteSettings,
 } from "obsidian-daily-notes-interface";
 import { FileView, TFile, ItemView, WorkspaceLeaf } from "obsidian";
 import { get } from "svelte/store";
@@ -42,6 +46,8 @@ export default class CalendarView extends ItemView {
 
     this.openOrCreateDailyNote = this.openOrCreateDailyNote.bind(this);
     this.openOrCreateWeeklyNote = this.openOrCreateWeeklyNote.bind(this);
+    this.openOrCreateMonthlyNote = this.openOrCreateMonthlyNote.bind(this);
+    this.openOrCreateYearlyNote = this.openOrCreateYearlyNote.bind(this);
 
     this.onNoteSettingsUpdate = this.onNoteSettingsUpdate.bind(this);
     this.onFileCreated = this.onFileCreated.bind(this);
@@ -51,9 +57,13 @@ export default class CalendarView extends ItemView {
 
     this.onHoverDay = this.onHoverDay.bind(this);
     this.onHoverWeek = this.onHoverWeek.bind(this);
+    this.onHoverMonth = this.onHoverMonth.bind(this);
+    this.onHoverYear = this.onHoverYear.bind(this);
 
     this.onContextMenuDay = this.onContextMenuDay.bind(this);
     this.onContextMenuWeek = this.onContextMenuWeek.bind(this);
+    this.onContextMenuMonth = this.onContextMenuMonth.bind(this);
+    this.onContextMenuYear = this.onContextMenuYear.bind(this);
 
     this.registerEvent(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -114,10 +124,16 @@ export default class CalendarView extends ItemView {
       props: {
         onClickDay: this.openOrCreateDailyNote,
         onClickWeek: this.openOrCreateWeeklyNote,
+        onClickMonth: this.openOrCreateMonthlyNote,
+        onClickYear: this.openOrCreateYearlyNote,
         onHoverDay: this.onHoverDay,
         onHoverWeek: this.onHoverWeek,
+        onHoverMonth: this.onHoverMonth,
+        onHoverYear: this.onHoverYear,
         onContextMenuDay: this.onContextMenuDay,
         onContextMenuWeek: this.onContextMenuWeek,
+        onContextMenuMonth: this.onContextMenuMonth,
+        onContextMenuYear: this.onContextMenuYear,
         sources,
       },
     });
@@ -161,6 +177,44 @@ export default class CalendarView extends ItemView {
     );
   }
 
+  onHoverMonth(
+    date: Moment,
+    targetEl: EventTarget,
+    isMetaPressed: boolean
+  ): void {
+    if (!isMetaPressed) {
+      return;
+    }
+    const note = getMonthlyNote(date, get(monthlyNotes));
+    const { format } = getMonthlyNoteSettings();
+    this.app.workspace.trigger(
+      "link-hover",
+      this,
+      targetEl,
+      date.format(format),
+      note?.path
+    );
+  }
+
+  onHoverYear(
+    date: Moment,
+    targetEl: EventTarget,
+    isMetaPressed: boolean
+  ): void {
+    if (!isMetaPressed) {
+      return;
+    }
+    const note = getYearlyNote(date, get(yearlyNotes));
+    const { format } = getYearlyNoteSettings();
+    this.app.workspace.trigger(
+      "link-hover",
+      this,
+      targetEl,
+      date.format(format),
+      note?.path
+    );
+  }
+
   private onContextMenuDay(date: Moment, event: MouseEvent): void {
     const note = getDailyNote(date, get(dailyNotes));
     if (!note) {
@@ -176,7 +230,31 @@ export default class CalendarView extends ItemView {
   private onContextMenuWeek(date: Moment, event: MouseEvent): void {
     const note = getWeeklyNote(date, get(weeklyNotes));
     if (!note) {
-      // If no file exists for a given day, show nothing.
+      // If no file exists for a given week, show nothing.
+      return;
+    }
+    showFileMenu(this.app, note, {
+      x: event.pageX,
+      y: event.pageY,
+    });
+  }
+
+  private onContextMenuMonth(date: Moment, event: MouseEvent): void {
+    const note = getMonthlyNote(date, get(monthlyNotes));
+    if (!note) {
+      // If no file exists for a given month, show nothing.
+      return;
+    }
+    showFileMenu(this.app, note, {
+      x: event.pageX,
+      y: event.pageY,
+    });
+  }
+
+  private onContextMenuYear(date: Moment, event: MouseEvent): void {
+    const note = getYearlyNote(date, get(yearlyNotes));
+    if (!note) {
+      // If no file exists for a given year, show nothing.
       return;
     }
     showFileMenu(this.app, note, {
@@ -188,6 +266,8 @@ export default class CalendarView extends ItemView {
   private onNoteSettingsUpdate(): void {
     dailyNotes.reindex();
     weeklyNotes.reindex();
+    monthlyNotes.reindex();
+    yearlyNotes.reindex();
     this.updateActiveFile();
   }
 
@@ -200,10 +280,22 @@ export default class CalendarView extends ItemView {
       weeklyNotes.reindex();
       this.updateActiveFile();
     }
+    if (getDateFromFile(file, "month")) {
+      monthlyNotes.reindex();
+      this.updateActiveFile();
+    }
+    if (getDateFromFile(file, "year")) {
+      yearlyNotes.reindex();
+      this.updateActiveFile();
+    }
   }
 
   private async onFileModified(file: TFile): Promise<void> {
-    const date = getDateFromFile(file, "day") || getDateFromFile(file, "week");
+    const date =
+      getDateFromFile(file, "day") ||
+      getDateFromFile(file, "week") ||
+      getDateFromFile(file, "month") ||
+      getDateFromFile(file, "year");
     if (date && this.calendar) {
       this.calendar.tick();
     }
@@ -217,6 +309,14 @@ export default class CalendarView extends ItemView {
       }
       if (getDateFromFile(file, "week")) {
         weeklyNotes.reindex();
+        this.calendar.tick();
+      }
+      if (getDateFromFile(file, "month")) {
+        monthlyNotes.reindex();
+        this.calendar.tick();
+      }
+      if (getDateFromFile(file, "year")) {
+        yearlyNotes.reindex();
         this.calendar.tick();
       }
     }
@@ -255,8 +355,24 @@ export default class CalendarView extends ItemView {
       }
 
       // Check to see if the active note is a weekly-note
-      const { format } = getWeeklyNoteSettings();
-      date = moment(activeLeaf.view.file.basename, format, true);
+      const { format: weeklyFormat } = getWeeklyNoteSettings();
+      date = moment(activeLeaf.view.file.basename, weeklyFormat, true);
+      if (date.isValid()) {
+        this.calendar.$set({ displayedMonth: date });
+        return;
+      }
+
+      // Check to see if the active note is a monthly-note
+      const { format: monthlyFormat } = getMonthlyNoteSettings();
+      date = moment(activeLeaf.view.file.basename, monthlyFormat, true);
+      if (date.isValid()) {
+        this.calendar.$set({ displayedMonth: date });
+        return;
+      }
+
+      // Check to see if the active note is a yearly-note
+      const { format: yearlyFormat } = getYearlyNoteSettings();
+      date = moment(activeLeaf.view.file.basename, yearlyFormat, true);
       if (date.isValid()) {
         this.calendar.$set({ displayedMonth: date });
         return;
@@ -318,5 +434,63 @@ export default class CalendarView extends ItemView {
     await leaf.openFile(existingFile, { active: true, mode });
 
     activeFile.setFile(existingFile);
+  }
+
+  async openOrCreateMonthlyNote(
+    date: Moment,
+    inNewSplit: boolean
+  ): Promise<void> {
+    const { workspace } = this.app;
+
+    const startOfMonth = date.clone().startOf("month");
+
+    const existingFile = getMonthlyNote(date, get(monthlyNotes));
+    if (!existingFile) {
+      // File doesn't exist
+      tryToCreateMonthlyNote(
+        startOfMonth,
+        inNewSplit,
+        this.settings,
+        (file) => {
+          activeFile.setFile(file);
+        }
+      );
+      return;
+    }
+
+    const leaf = inNewSplit
+      ? workspace.splitActiveLeaf()
+      : workspace.getUnpinnedLeaf();
+    await leaf.openFile(existingFile);
+
+    activeFile.setFile(existingFile);
+    workspace.setActiveLeaf(leaf, true, true);
+  }
+
+  async openOrCreateYearlyNote(
+    date: Moment,
+    inNewSplit: boolean
+  ): Promise<void> {
+    const { workspace } = this.app;
+
+    const startOfYear = date.clone().startOf("year");
+
+    const existingFile = getYearlyNote(date, get(yearlyNotes));
+
+    if (!existingFile) {
+      // File doesn't exist
+      tryToCreateYearlyNote(startOfYear, inNewSplit, this.settings, (file) => {
+        activeFile.setFile(file);
+      });
+      return;
+    }
+
+    const leaf = inNewSplit
+      ? workspace.splitActiveLeaf()
+      : workspace.getUnpinnedLeaf();
+    await leaf.openFile(existingFile);
+
+    activeFile.setFile(existingFile);
+    workspace.setActiveLeaf(leaf, true, true);
   }
 }
