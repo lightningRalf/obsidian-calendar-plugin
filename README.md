@@ -2,7 +2,7 @@
 
 This plugin for [Obsidian](https://obsidian.md/) creates a simple Calendar view for visualizing and navigating between your daily notes.
 
-![screenshot-full](https://raw.githubusercontent.com/liamcain/obsidian-calendar-plugin/master/images/screenshot-full.png)
+![screenshot-full](https://github.com/user-attachments/assets/191df6fe-659a-4996-beb3-28930b759fd2)
 
 ## Usage
 
