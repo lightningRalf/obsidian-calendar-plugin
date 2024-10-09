@@ -107,10 +107,6 @@ function createQuarterlyNotesStore() {
     reindex: () => {
       try {
         const quarterlyNotes = getAllQuarterlyNotes();
-        console.log(quarterlyNotes);
-        for (const key in quarterlyNotes) {
-          console.log(`Key ${key} has value ${quarterlyNotes[key]}`);
-        }
         store.set(quarterlyNotes);
         hasError = false;
       } catch (err) {
