@@ -1,5 +1,5 @@
 diff --git a/node_modules/obsidian-calendar-ui/dist/index.js b/node_modules/obsidian-calendar-ui/dist/index.js
-index 41b7e61..71a4ed7 100644
+index 41b7e61..2f23982 100644
 --- a/node_modules/obsidian-calendar-ui/dist/index.js
 +++ b/node_modules/obsidian-calendar-ui/dist/index.js
 @@ -583,7 +583,7 @@
@@ -11,6 +11,24 @@ index 41b7e61..71a4ed7 100644
  
      function add_css$5() {
      	var style = element("style");
+@@ -630,7 +630,7 @@
+     }
+ 
+     // (6:0) {#if isFilled}
+-    function create_if_block$2(ctx) {
++    function create_if_block$3(ctx) {
+     	let svg;
+     	let circle;
+     	let svg_class_value;
+@@ -670,7 +670,7 @@
+     	let if_block_anchor;
+ 
+     	function select_block_type(ctx, dirty) {
+-    		if (/*isFilled*/ ctx[1]) return create_if_block$2;
++    		if (/*isFilled*/ ctx[1]) return create_if_block$3;
+     		return create_else_block$1;
+     	}
+ 
 @@ -730,7 +730,7 @@
      	}
      }
@@ -20,6 +38,15 @@ index 41b7e61..71a4ed7 100644
  
      const get_default_slot_changes_1 = dirty => ({});
      const get_default_slot_context_1 = ctx => ({ metadata: null });
+@@ -777,7 +777,7 @@
+     }
+ 
+     // (7:0) {#if metadata}
+-    function create_if_block$1(ctx) {
++    function create_if_block$2(ctx) {
+     	let await_block_anchor;
+     	let promise;
+     	let current;
 @@ -840,7 +840,7 @@
      	};
      }
@@ -38,6 +65,15 @@ index 41b7e61..71a4ed7 100644
      function create_pending_block(ctx) {
      	return {
      		c: noop,
+@@ -908,7 +908,7 @@
+     	let if_block;
+     	let if_block_anchor;
+     	let current;
+-    	const if_block_creators = [create_if_block$1, create_else_block];
++    	const if_block_creators = [create_if_block$2, create_else_block];
+     	const if_blocks = [];
+ 
+     	function select_block_type(ctx, dirty) {
 @@ -1032,7 +1032,7 @@
          return month;
      }
@@ -47,6 +83,48 @@ index 41b7e61..71a4ed7 100644
  
      function add_css$4() {
      	var style = element("style");
+@@ -1041,14 +1041,14 @@
+     	append(document.head, style);
+     }
+ 
+-    function get_each_context$2(ctx, list, i) {
++    function get_each_context$3(ctx, list, i) {
+     	const child_ctx = ctx.slice();
+     	child_ctx[11] = list[i];
+     	return child_ctx;
+     }
+ 
+     // (36:8) {#each metadata.dots as dot}
+-    function create_each_block$2(ctx) {
++    function create_each_block$3(ctx) {
+     	let dot;
+     	let current;
+     	const dot_spread_levels = [/*dot*/ ctx[11]];
+@@ -1105,7 +1105,7 @@
+     	let each_blocks = [];
+ 
+     	for (let i = 0; i < each_value.length; i += 1) {
+-    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
++    		each_blocks[i] = create_each_block$3(get_each_context$3(ctx, each_value, i));
+     	}
+ 
+     	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+@@ -1180,13 +1180,13 @@
+     				let i;
+ 
+     				for (i = 0; i < each_value.length; i += 1) {
+-    					const child_ctx = get_each_context$2(ctx, each_value, i);
++    					const child_ctx = get_each_context$3(ctx, each_value, i);
+ 
+     					if (each_blocks[i]) {
+     						each_blocks[i].p(child_ctx, dirty);
+     						transition_in(each_blocks[i], 1);
+     					} else {
+-    						each_blocks[i] = create_each_block$2(child_ctx);
++    						each_blocks[i] = create_each_block$3(child_ctx);
+     						each_blocks[i].c();
+     						transition_in(each_blocks[i], 1);
+     						each_blocks[i].m(div0, null);
 @@ -1353,7 +1353,7 @@
      	}
      }
@@ -56,7 +134,7 @@ index 41b7e61..71a4ed7 100644
  
      function add_css$3() {
      	var style = element("style");
-@@ -1445,7 +1445,7 @@
+@@ -1445,17 +1445,102 @@
      	}
      }
  
@@ -65,37 +143,279 @@ index 41b7e61..71a4ed7 100644
  
      function add_css$2() {
      	var style = element("style");
-@@ -1505,7 +1505,7 @@
-     			create_component(arrow0.$$.fragment);
-     			t4 = space();
+-    	style.id = "svelte-1vwr9dd-style";
+-    	style.textContent = ".nav.svelte-1vwr9dd.svelte-1vwr9dd{align-items:center;display:flex;margin:0.6em 0 1em;padding:0 8px;width:100%}.nav.is-mobile.svelte-1vwr9dd.svelte-1vwr9dd{padding:0}.title.svelte-1vwr9dd.svelte-1vwr9dd{color:var(--color-text-title);font-size:1.5em;margin:0}.is-mobile.svelte-1vwr9dd .title.svelte-1vwr9dd{font-size:1.3em}.month.svelte-1vwr9dd.svelte-1vwr9dd{font-weight:500;text-transform:capitalize}.year.svelte-1vwr9dd.svelte-1vwr9dd{color:var(--interactive-accent)}.right-nav.svelte-1vwr9dd.svelte-1vwr9dd{display:flex;justify-content:center;margin-left:auto}.reset-button.svelte-1vwr9dd.svelte-1vwr9dd{cursor:pointer;border-radius:4px;color:var(--text-muted);font-size:0.7em;font-weight:600;letter-spacing:1px;margin:0 4px;padding:0px 4px;text-transform:uppercase}.is-mobile.svelte-1vwr9dd .reset-button.svelte-1vwr9dd{display:none}";
++    	style.id = "svelte-ac7gen-style";
++    	style.textContent = ".nav.svelte-ac7gen.svelte-ac7gen{align-items:center;display:flex;margin:0.6em 0 1em;padding:0 8px;width:100%}.nav.is-mobile.svelte-ac7gen.svelte-ac7gen{padding:0}.title-container.svelte-ac7gen.svelte-ac7gen{display:flex;flex-direction:column;align-items:center}.title.svelte-ac7gen.svelte-ac7gen{color:var(--color-text-title);font-size:1.5em;margin:0}.is-mobile.svelte-ac7gen .title.svelte-ac7gen{font-size:1.3em}.month.svelte-ac7gen.svelte-ac7gen{font-weight:500;text-transform:capitalize}.year.svelte-ac7gen.svelte-ac7gen{color:var(--interactive-accent)}.quarters.svelte-ac7gen.svelte-ac7gen{display:flex;justify-content:center;align-items:center;margin-top:4px;padding-left:2px;padding-right:2px}.quarter.svelte-ac7gen.svelte-ac7gen{font-size:0.6em;color:var(--text-muted);margin:0 4px}.quarter.active.svelte-ac7gen.svelte-ac7gen{color:var(--interactive-accent);font-weight:bold}.divider.svelte-ac7gen.svelte-ac7gen{font-size:0.3em;color:var(--text-muted);margin:0 4px}.right-nav.svelte-ac7gen.svelte-ac7gen{display:flex;justify-content:center;margin-left:auto}.reset-button.svelte-ac7gen.svelte-ac7gen{cursor:pointer;border-radius:4px;color:var(--text-muted);font-size:0.7em;font-weight:600;letter-spacing:1px;margin:0 4px;padding:0px 4px;text-transform:uppercase}.is-mobile.svelte-ac7gen .reset-button.svelte-ac7gen{display:none}";
+     	append(document.head, style);
+     }
+ 
++    function get_each_context$2(ctx, list, i) {
++    	const child_ctx = ctx.slice();
++    	child_ctx[17] = list[i];
++    	child_ctx[19] = i;
++    	return child_ctx;
++    }
++
++    // (56:8) {#if index < 3}
++    function create_if_block$1(ctx) {
++    	let span;
++
++    	return {
++    		c() {
++    			span = element("span");
++    			span.textContent = "|";
++    			attr(span, "class", "divider svelte-ac7gen");
++    		},
++    		m(target, anchor) {
++    			insert(target, span, anchor);
++    		},
++    		d(detaching) {
++    			if (detaching) detach(span);
++    		}
++    	};
++    }
++
++    // (46:6) {#each [1, 2, 3, 4] as quarter, index}
++    function create_each_block$2(ctx) {
++    	let span;
++    	let t0;
++    	let t1;
++    	let t2;
++    	let if_block_anchor;
++    	let mounted;
++    	let dispose;
++
++    	function click_handler_2(...args) {
++    		return /*click_handler_2*/ ctx[16](/*quarter*/ ctx[17], ...args);
++    	}
++
++    	let if_block = /*index*/ ctx[19] < 3 && create_if_block$1();
++
++    	return {
++    		c() {
++    			span = element("span");
++    			t0 = text("Q");
++    			t1 = text(/*quarter*/ ctx[17]);
++    			t2 = space();
++    			if (if_block) if_block.c();
++    			if_block_anchor = empty();
++    			attr(span, "class", "quarter svelte-ac7gen");
++    			toggle_class(span, "active", /*quarter*/ ctx[17] === /*currentQuarter*/ ctx[7]);
++    		},
++    		m(target, anchor) {
++    			insert(target, span, anchor);
++    			append(span, t0);
++    			append(span, t1);
++    			insert(target, t2, anchor);
++    			if (if_block) if_block.m(target, anchor);
++    			insert(target, if_block_anchor, anchor);
++
++    			if (!mounted) {
++    				dispose = listen(span, "click", click_handler_2);
++    				mounted = true;
++    			}
++    		},
++    		p(new_ctx, dirty) {
++    			ctx = new_ctx;
++
++    			if (dirty & /*currentQuarter*/ 128) {
++    				toggle_class(span, "active", /*quarter*/ ctx[17] === /*currentQuarter*/ ctx[7]);
++    			}
++    		},
++    		d(detaching) {
++    			if (detaching) detach(span);
++    			if (detaching) detach(t2);
++    			if (if_block) if_block.d(detaching);
++    			if (detaching) detach(if_block_anchor);
++    			mounted = false;
++    			dispose();
++    		}
++    	};
++    }
++
+     function create_fragment$2(ctx) {
+-    	let div2;
++    	let div4;
++    	let div1;
+     	let h3;
+     	let span0;
+     	let t0_value = /*displayedMonth*/ ctx[0].format("MMM") + "";
+@@ -1465,15 +1550,23 @@
+     	let t2_value = /*displayedMonth*/ ctx[0].format("YYYY") + "";
+     	let t2;
+     	let t3;
+-    	let div1;
+-    	let arrow0;
+-    	let t4;
+     	let div0;
+-    	let t6;
++    	let t4;
++    	let div3;
++    	let arrow0;
++    	let t5;
++    	let div2;
++    	let t7;
+     	let arrow1;
+     	let current;
+     	let mounted;
+     	let dispose;
++    	let each_value = [1, 2, 3, 4];
++    	let each_blocks = [];
++
++    	for (let i = 0; i < 4; i += 1) {
++    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
++    	}
+ 
+     	arrow0 = new Arrow({
+     			props: {
+@@ -1493,7 +1586,8 @@
+ 
+     	return {
+     		c() {
+-    			div2 = element("div");
++    			div4 = element("div");
++    			div1 = element("div");
+     			h3 = element("h3");
+     			span0 = element("span");
+     			t0 = text(t0_value);
+@@ -1501,44 +1595,60 @@
+     			span1 = element("span");
+     			t2 = text(t2_value);
+     			t3 = space();
+-    			div1 = element("div");
+-    			create_component(arrow0.$$.fragment);
+-    			t4 = space();
      			div0 = element("div");
 -    			div0.textContent = `${/*todayDisplayStr*/ ctx[4]}`;
-+    			div0.textContent = `${/*todayDisplayStr*/ ctx[6]}`;
-     			t6 = space();
+-    			t6 = space();
++
++    			for (let i = 0; i < 4; i += 1) {
++    				each_blocks[i].c();
++    			}
++
++    			t4 = space();
++    			div3 = element("div");
++    			create_component(arrow0.$$.fragment);
++    			t5 = space();
++    			div2 = element("div");
++    			div2.textContent = `${/*todayDisplayStr*/ ctx[8]}`;
++    			t7 = space();
      			create_component(arrow1.$$.fragment);
-     			attr(span0, "class", "month svelte-1vwr9dd");
-@@ -1514,7 +1514,7 @@
-     			attr(div0, "class", "reset-button svelte-1vwr9dd");
-     			attr(div1, "class", "right-nav svelte-1vwr9dd");
-     			attr(div2, "class", "nav svelte-1vwr9dd");
+-    			attr(span0, "class", "month svelte-1vwr9dd");
+-    			attr(span1, "class", "year svelte-1vwr9dd");
+-    			attr(h3, "class", "title svelte-1vwr9dd");
+-    			attr(div0, "class", "reset-button svelte-1vwr9dd");
+-    			attr(div1, "class", "right-nav svelte-1vwr9dd");
+-    			attr(div2, "class", "nav svelte-1vwr9dd");
 -    			toggle_class(div2, "is-mobile", /*isMobile*/ ctx[5]);
-+    			toggle_class(div2, "is-mobile", /*isMobile*/ ctx[7]);
++    			attr(span0, "class", "month svelte-ac7gen");
++    			attr(span1, "class", "year svelte-ac7gen");
++    			attr(h3, "class", "title svelte-ac7gen");
++    			attr(div0, "class", "quarters svelte-ac7gen");
++    			attr(div1, "class", "title-container svelte-ac7gen");
++    			attr(div2, "class", "reset-button svelte-ac7gen");
++    			attr(div3, "class", "right-nav svelte-ac7gen");
++    			attr(div4, "class", "nav svelte-ac7gen");
++    			toggle_class(div4, "is-mobile", /*isMobile*/ ctx[9]);
      		},
      		m(target, anchor) {
-     			insert(target, div2, anchor);
-@@ -1535,9 +1535,8 @@
+-    			insert(target, div2, anchor);
+-    			append(div2, h3);
++    			insert(target, div4, anchor);
++    			append(div4, div1);
++    			append(div1, h3);
+     			append(h3, span0);
+     			append(span0, t0);
+     			append(h3, t1);
+     			append(h3, span1);
+     			append(span1, t2);
+-    			append(div2, t3);
+-    			append(div2, div1);
+-    			mount_component(arrow0, div1, null);
+-    			append(div1, t4);
++    			append(div1, t3);
+     			append(div1, div0);
+-    			append(div1, t6);
+-    			mount_component(arrow1, div1, null);
++
++    			for (let i = 0; i < 4; i += 1) {
++    				each_blocks[i].m(div0, null);
++    			}
++
++    			append(div4, t4);
++    			append(div4, div3);
++    			mount_component(arrow0, div3, null);
++    			append(div3, t5);
++    			append(div3, div2);
++    			append(div3, t7);
++    			mount_component(arrow1, div3, null);
+     			current = true;
  
      			if (!mounted) {
      				dispose = [
 -    					listen(h3, "click", function () {
 -    						if (is_function(/*resetDisplayedMonth*/ ctx[1])) /*resetDisplayedMonth*/ ctx[1].apply(this, arguments);
 -    					}),
-+    					listen(span0, "click", /*click_handler*/ ctx[11]),
-+    					listen(span1, "click", /*click_handler_1*/ ctx[12]),
-     					listen(div0, "click", function () {
+-    					listen(div0, "click", function () {
++    					listen(span0, "click", /*click_handler*/ ctx[14]),
++    					listen(span1, "click", /*click_handler_1*/ ctx[15]),
++    					listen(div2, "click", function () {
      						if (is_function(/*resetDisplayedMonth*/ ctx[1])) /*resetDisplayedMonth*/ ctx[1].apply(this, arguments);
      					})
-@@ -1585,6 +1584,10 @@
+     				];
+@@ -1550,6 +1660,28 @@
+     			ctx = new_ctx;
+     			if ((!current || dirty & /*displayedMonth*/ 1) && t0_value !== (t0_value = /*displayedMonth*/ ctx[0].format("MMM") + "")) set_data(t0, t0_value);
+     			if ((!current || dirty & /*displayedMonth*/ 1) && t2_value !== (t2_value = /*displayedMonth*/ ctx[0].format("YYYY") + "")) set_data(t2, t2_value);
++
++    			if (dirty & /*currentQuarter, onClickQuarter, getStartOfQuarter, displayedMonth*/ 1217) {
++    				each_value = [1, 2, 3, 4];
++    				let i;
++
++    				for (i = 0; i < 4; i += 1) {
++    					const child_ctx = get_each_context$2(ctx, each_value, i);
++
++    					if (each_blocks[i]) {
++    						each_blocks[i].p(child_ctx, dirty);
++    					} else {
++    						each_blocks[i] = create_each_block$2(child_ctx);
++    						each_blocks[i].c();
++    						each_blocks[i].m(div0, null);
++    					}
++    				}
++
++    				for (; i < 4; i += 1) {
++    					each_blocks[i].d(1);
++    				}
++    			}
++
+     			const arrow0_changes = {};
+     			if (dirty & /*decrementDisplayedMonth*/ 8) arrow0_changes.onClick = /*decrementDisplayedMonth*/ ctx[3];
+     			arrow0.$set(arrow0_changes);
+@@ -1569,7 +1701,8 @@
+     			current = false;
+     		},
+     		d(detaching) {
+-    			if (detaching) detach(div2);
++    			if (detaching) detach(div4);
++    			destroy_each(each_blocks, detaching);
+     			destroy_component(arrow0);
+     			destroy_component(arrow1);
+     			mounted = false;
+@@ -1578,13 +1711,23 @@
+     	};
+     }
+ 
++    function getCurrentQuarter(month) {
++    	return Math.floor(month / 3) + 1;
++    }
++
+     function instance$2($$self, $$props, $$invalidate) {
++    	let currentQuarter;
+     	
+     	let { displayedMonth } = $$props;
+     	let { today } = $$props;
      	let { resetDisplayedMonth } = $$props;
      	let { incrementDisplayedMonth } = $$props;
      	let { decrementDisplayedMonth } = $$props;
@@ -103,13 +423,20 @@ index 41b7e61..71a4ed7 100644
 +    	let { onClickWeek } = $$props;
 +    	let { onClickMonth } = $$props;
 +    	let { onClickYear } = $$props;
++    	let { onClickQuarter } = $$props;
  
      	// Get the word 'Today' but localized to the current language
      	const todayDisplayStr = today.calendar().split(/\d|\s/)[0];
-@@ -1592,12 +1595,24 @@
+@@ -1592,12 +1735,39 @@
      	// eslint-disable-next-line @typescript-eslint/no-explicit-any
      	let isMobile = window.app.isMobile;
  
++    	// Function to get the start of a quarter
++    	function getStartOfQuarter(year, quarter) {
++    		const startMonth = (quarter - 1) * 3; // Calculate the starting month of the quarter
++    		return displayedMonth.clone().year(year).month(startMonth).startOf("month");
++    	}
++
 +    	const click_handler = event => {
 +    		onClickMonth(displayedMonth, event.metaKey);
 +    	};
@@ -118,51 +445,69 @@ index 41b7e61..71a4ed7 100644
 +    		onClickYear(displayedMonth, event.metaKey);
 +    	};
 +
++    	const click_handler_2 = (quarter, event) => onClickQuarter(getStartOfQuarter(displayedMonth.year(), quarter), event.metaKey);
++
      	$$self.$$set = $$props => {
      		if ("displayedMonth" in $$props) $$invalidate(0, displayedMonth = $$props.displayedMonth);
 -    		if ("today" in $$props) $$invalidate(6, today = $$props.today);
-+    		if ("today" in $$props) $$invalidate(8, today = $$props.today);
++    		if ("today" in $$props) $$invalidate(11, today = $$props.today);
      		if ("resetDisplayedMonth" in $$props) $$invalidate(1, resetDisplayedMonth = $$props.resetDisplayedMonth);
      		if ("incrementDisplayedMonth" in $$props) $$invalidate(2, incrementDisplayedMonth = $$props.incrementDisplayedMonth);
      		if ("decrementDisplayedMonth" in $$props) $$invalidate(3, decrementDisplayedMonth = $$props.decrementDisplayedMonth);
-+    		if ("onClickDay" in $$props) $$invalidate(9, onClickDay = $$props.onClickDay);
-+    		if ("onClickWeek" in $$props) $$invalidate(10, onClickWeek = $$props.onClickWeek);
++    		if ("onClickDay" in $$props) $$invalidate(12, onClickDay = $$props.onClickDay);
++    		if ("onClickWeek" in $$props) $$invalidate(13, onClickWeek = $$props.onClickWeek);
 +    		if ("onClickMonth" in $$props) $$invalidate(4, onClickMonth = $$props.onClickMonth);
 +    		if ("onClickYear" in $$props) $$invalidate(5, onClickYear = $$props.onClickYear);
++    		if ("onClickQuarter" in $$props) $$invalidate(6, onClickQuarter = $$props.onClickQuarter);
++    	};
++
++    	$$self.$$.update = () => {
++    		if ($$self.$$.dirty & /*displayedMonth*/ 1) {
++    			$$invalidate(7, currentQuarter = getCurrentQuarter(displayedMonth.month()));
++    		}
      	};
  
      	return [
-@@ -1605,9 +1620,15 @@
+@@ -1605,28 +1775,43 @@
      		resetDisplayedMonth,
      		incrementDisplayedMonth,
      		decrementDisplayedMonth,
 +    		onClickMonth,
 +    		onClickYear,
++    		onClickQuarter,
++    		currentQuarter,
      		todayDisplayStr,
      		isMobile,
 -    		today
++    		getStartOfQuarter,
 +    		today,
 +    		onClickDay,
 +    		onClickWeek,
 +    		click_handler,
-+    		click_handler_1
++    		click_handler_1,
++    		click_handler_2
      	];
      }
  
-@@ -1618,15 +1639,19 @@
+     class Nav extends SvelteComponent {
+     	constructor(options) {
+     		super();
+-    		if (!document.getElementById("svelte-1vwr9dd-style")) add_css$2();
++    		if (!document.getElementById("svelte-ac7gen-style")) add_css$2();
  
      		init(this, options, instance$2, create_fragment$2, safe_not_equal, {
      			displayedMonth: 0,
 -    			today: 6,
-+    			today: 8,
++    			today: 11,
      			resetDisplayedMonth: 1,
      			incrementDisplayedMonth: 2,
 -    			decrementDisplayedMonth: 3
 +    			decrementDisplayedMonth: 3,
-+    			onClickDay: 9,
-+    			onClickWeek: 10,
++    			onClickDay: 12,
++    			onClickWeek: 13,
 +    			onClickMonth: 4,
-+    			onClickYear: 5
++    			onClickYear: 5,
++    			onClickQuarter: 6
      		});
      	}
      }
@@ -172,7 +517,7 @@ index 41b7e61..71a4ed7 100644
  
      function add_css$1() {
      	var style = element("style");
-@@ -1953,7 +1978,7 @@
+@@ -1953,7 +2138,7 @@
          return metadataReducer(sources.map((source) => source.getWeeklyMetadata(date)));
      }
  
@@ -181,56 +526,56 @@ index 41b7e61..71a4ed7 100644
  
      function add_css() {
      	var style = element("style");
-@@ -1964,29 +1989,29 @@
+@@ -1964,29 +2149,29 @@
  
      function get_each_context(ctx, list, i) {
      	const child_ctx = ctx.slice();
 -    	child_ctx[18] = list[i];
-+    	child_ctx[20] = list[i];
++    	child_ctx[21] = list[i];
      	return child_ctx;
      }
  
      function get_each_context_1(ctx, list, i) {
      	const child_ctx = ctx.slice();
 -    	child_ctx[21] = list[i];
-+    	child_ctx[23] = list[i];
++    	child_ctx[24] = list[i];
      	return child_ctx;
      }
  
      function get_each_context_2(ctx, list, i) {
      	const child_ctx = ctx.slice();
 -    	child_ctx[24] = list[i];
-+    	child_ctx[26] = list[i];
++    	child_ctx[27] = list[i];
      	return child_ctx;
      }
  
      function get_each_context_3(ctx, list, i) {
      	const child_ctx = ctx.slice();
 -    	child_ctx[27] = list[i];
-+    	child_ctx[29] = list[i];
++    	child_ctx[30] = list[i];
      	return child_ctx;
      }
  
 -    // (55:6) {#if showWeekNums}
-+    // (59:6) {#if showWeekNums}
++    // (61:6) {#if showWeekNums}
      function create_if_block_2(ctx) {
      	let col;
  
-@@ -2003,7 +2028,7 @@
+@@ -2003,7 +2188,7 @@
      	};
      }
  
 -    // (58:6) {#each month[1].days as date}
-+    // (62:6) {#each month[1].days as date}
++    // (64:6) {#each month[1].days as date}
      function create_each_block_3(ctx) {
      	let col;
  
-@@ -2011,14 +2036,14 @@
+@@ -2011,14 +2196,14 @@
      		c() {
      			col = element("col");
      			attr(col, "class", "svelte-pcimu8");
 -    			toggle_class(col, "weekend", isWeekend(/*date*/ ctx[27]));
-+    			toggle_class(col, "weekend", isWeekend(/*date*/ ctx[29]));
++    			toggle_class(col, "weekend", isWeekend(/*date*/ ctx[30]));
      		},
      		m(target, anchor) {
      			insert(target, col, anchor);
@@ -238,58 +583,58 @@ index 41b7e61..71a4ed7 100644
      		p(ctx, dirty) {
 -    			if (dirty & /*isWeekend, month*/ 16384) {
 -    				toggle_class(col, "weekend", isWeekend(/*date*/ ctx[27]));
-+    			if (dirty[0] & /*month*/ 65536) {
-+    				toggle_class(col, "weekend", isWeekend(/*date*/ ctx[29]));
++    			if (dirty[0] & /*month*/ 131072) {
++    				toggle_class(col, "weekend", isWeekend(/*date*/ ctx[30]));
      			}
      		},
      		d(detaching) {
-@@ -2027,7 +2052,7 @@
+@@ -2027,7 +2212,7 @@
      	};
      }
  
 -    // (64:8) {#if showWeekNums}
-+    // (68:8) {#if showWeekNums}
++    // (70:8) {#if showWeekNums}
      function create_if_block_1(ctx) {
      	let th;
  
-@@ -2046,10 +2071,10 @@
+@@ -2046,10 +2231,10 @@
      	};
      }
  
 -    // (67:8) {#each daysOfWeek as dayOfWeek}
-+    // (71:8) {#each daysOfWeek as dayOfWeek}
++    // (73:8) {#each daysOfWeek as dayOfWeek}
      function create_each_block_2(ctx) {
      	let th;
 -    	let t_value = /*dayOfWeek*/ ctx[24] + "";
-+    	let t_value = /*dayOfWeek*/ ctx[26] + "";
++    	let t_value = /*dayOfWeek*/ ctx[27] + "";
      	let t;
  
      	return {
-@@ -2063,7 +2088,7 @@
+@@ -2063,7 +2248,7 @@
      			append(th, t);
      		},
      		p(ctx, dirty) {
 -    			if (dirty & /*daysOfWeek*/ 32768 && t_value !== (t_value = /*dayOfWeek*/ ctx[24] + "")) set_data(t, t_value);
-+    			if (dirty[0] & /*daysOfWeek*/ 131072 && t_value !== (t_value = /*dayOfWeek*/ ctx[26] + "")) set_data(t, t_value);
++    			if (dirty[0] & /*daysOfWeek*/ 262144 && t_value !== (t_value = /*dayOfWeek*/ ctx[27] + "")) set_data(t, t_value);
      		},
      		d(detaching) {
      			if (detaching) detach(th);
-@@ -2071,22 +2096,22 @@
+@@ -2071,22 +2256,22 @@
      	};
      }
  
 -    // (75:10) {#if showWeekNums}
-+    // (79:10) {#if showWeekNums}
++    // (81:10) {#if showWeekNums}
      function create_if_block(ctx) {
      	let weeknum;
      	let current;
  
      	const weeknum_spread_levels = [
 -    		/*week*/ ctx[18],
-+    		/*week*/ ctx[20],
++    		/*week*/ ctx[21],
      		{
 -    			metadata: getWeeklyMetadata(/*sources*/ ctx[8], /*week*/ ctx[18].days[0], /*today*/ ctx[10])
-+    			metadata: getWeeklyMetadata(/*sources*/ ctx[10], /*week*/ ctx[20].days[0], /*today*/ ctx[12])
++    			metadata: getWeeklyMetadata(/*sources*/ ctx[11], /*week*/ ctx[21].days[0], /*today*/ ctx[13])
      		},
      		{ onClick: /*onClickWeek*/ ctx[7] },
      		{
@@ -297,23 +642,23 @@ index 41b7e61..71a4ed7 100644
      		},
      		{ onHover: /*onHoverWeek*/ ctx[3] },
 -    		{ selectedId: /*selectedId*/ ctx[9] }
-+    		{ selectedId: /*selectedId*/ ctx[11] }
++    		{ selectedId: /*selectedId*/ ctx[12] }
      	];
  
      	let weeknum_props = {};
-@@ -2106,18 +2131,18 @@
+@@ -2106,18 +2291,18 @@
      			current = true;
      		},
      		p(ctx, dirty) {
 -    			const weeknum_changes = (dirty & /*month, getWeeklyMetadata, sources, today, onClickWeek, onContextMenuWeek, onHoverWeek, selectedId*/ 18344)
-+    			const weeknum_changes = (dirty[0] & /*month, sources, today, onClickWeek, onContextMenuWeek, onHoverWeek, selectedId*/ 72872)
++    			const weeknum_changes = (dirty[0] & /*month, sources, today, onClickWeek, onContextMenuWeek, onHoverWeek, selectedId*/ 145576)
      			? get_spread_update(weeknum_spread_levels, [
 -    					dirty & /*month*/ 16384 && get_spread_object(/*week*/ ctx[18]),
 -    					dirty & /*getWeeklyMetadata, sources, month, today*/ 17664 && {
 -    						metadata: getWeeklyMetadata(/*sources*/ ctx[8], /*week*/ ctx[18].days[0], /*today*/ ctx[10])
-+    					dirty[0] & /*month*/ 65536 && get_spread_object(/*week*/ ctx[20]),
-+    					dirty[0] & /*sources, month, today*/ 70656 && {
-+    						metadata: getWeeklyMetadata(/*sources*/ ctx[10], /*week*/ ctx[20].days[0], /*today*/ ctx[12])
++    					dirty[0] & /*month*/ 131072 && get_spread_object(/*week*/ ctx[21]),
++    					dirty[0] & /*sources, month, today*/ 141312 && {
++    						metadata: getWeeklyMetadata(/*sources*/ ctx[11], /*week*/ ctx[21].days[0], /*today*/ ctx[13])
      					},
 -    					dirty & /*onClickWeek*/ 128 && { onClick: /*onClickWeek*/ ctx[7] },
 -    					dirty & /*onContextMenuWeek*/ 32 && {
@@ -324,39 +669,39 @@ index 41b7e61..71a4ed7 100644
 -    					dirty & /*onHoverWeek*/ 8 && { onHover: /*onHoverWeek*/ ctx[3] },
 -    					dirty & /*selectedId*/ 512 && { selectedId: /*selectedId*/ ctx[9] }
 +    					dirty[0] & /*onHoverWeek*/ 8 && { onHover: /*onHoverWeek*/ ctx[3] },
-+    					dirty[0] & /*selectedId*/ 2048 && { selectedId: /*selectedId*/ ctx[11] }
++    					dirty[0] & /*selectedId*/ 4096 && { selectedId: /*selectedId*/ ctx[12] }
      				])
      			: {};
  
-@@ -2138,7 +2163,7 @@
+@@ -2138,7 +2323,7 @@
      	};
      }
  
 -    // (85:10) {#each week.days as day (day.format())}
-+    // (89:10) {#each week.days as day (day.format())}
++    // (91:10) {#each week.days as day (day.format())}
      function create_each_block_1(key_1, ctx) {
      	let first;
      	let day;
-@@ -2146,14 +2171,14 @@
+@@ -2146,14 +2331,14 @@
  
      	day = new Day({
      			props: {
 -    				date: /*day*/ ctx[21],
 -    				today: /*today*/ ctx[10],
-+    				date: /*day*/ ctx[23],
-+    				today: /*today*/ ctx[12],
++    				date: /*day*/ ctx[24],
++    				today: /*today*/ ctx[13],
      				displayedMonth: /*displayedMonth*/ ctx[0],
      				onClick: /*onClickDay*/ ctx[6],
      				onContextMenu: /*onContextMenuDay*/ ctx[4],
      				onHover: /*onHoverDay*/ ctx[2],
 -    				metadata: getDailyMetadata(/*sources*/ ctx[8], /*day*/ ctx[21], /*today*/ ctx[10]),
 -    				selectedId: /*selectedId*/ ctx[9]
-+    				metadata: getDailyMetadata(/*sources*/ ctx[10], /*day*/ ctx[23], /*today*/ ctx[12]),
-+    				selectedId: /*selectedId*/ ctx[11]
++    				metadata: getDailyMetadata(/*sources*/ ctx[11], /*day*/ ctx[24], /*today*/ ctx[13]),
++    				selectedId: /*selectedId*/ ctx[12]
      			}
      		});
  
-@@ -2173,14 +2198,14 @@
+@@ -2173,14 +2358,14 @@
      		p(new_ctx, dirty) {
      			ctx = new_ctx;
      			const day_changes = {};
@@ -368,38 +713,38 @@ index 41b7e61..71a4ed7 100644
 -    			if (dirty & /*onHoverDay*/ 4) day_changes.onHover = /*onHoverDay*/ ctx[2];
 -    			if (dirty & /*sources, month, today*/ 17664) day_changes.metadata = getDailyMetadata(/*sources*/ ctx[8], /*day*/ ctx[21], /*today*/ ctx[10]);
 -    			if (dirty & /*selectedId*/ 512) day_changes.selectedId = /*selectedId*/ ctx[9];
-+    			if (dirty[0] & /*month*/ 65536) day_changes.date = /*day*/ ctx[23];
-+    			if (dirty[0] & /*today*/ 4096) day_changes.today = /*today*/ ctx[12];
++    			if (dirty[0] & /*month*/ 131072) day_changes.date = /*day*/ ctx[24];
++    			if (dirty[0] & /*today*/ 8192) day_changes.today = /*today*/ ctx[13];
 +    			if (dirty[0] & /*displayedMonth*/ 1) day_changes.displayedMonth = /*displayedMonth*/ ctx[0];
 +    			if (dirty[0] & /*onClickDay*/ 64) day_changes.onClick = /*onClickDay*/ ctx[6];
 +    			if (dirty[0] & /*onContextMenuDay*/ 16) day_changes.onContextMenu = /*onContextMenuDay*/ ctx[4];
 +    			if (dirty[0] & /*onHoverDay*/ 4) day_changes.onHover = /*onHoverDay*/ ctx[2];
-+    			if (dirty[0] & /*sources, month, today*/ 70656) day_changes.metadata = getDailyMetadata(/*sources*/ ctx[10], /*day*/ ctx[23], /*today*/ ctx[12]);
-+    			if (dirty[0] & /*selectedId*/ 2048) day_changes.selectedId = /*selectedId*/ ctx[11];
++    			if (dirty[0] & /*sources, month, today*/ 141312) day_changes.metadata = getDailyMetadata(/*sources*/ ctx[11], /*day*/ ctx[24], /*today*/ ctx[13]);
++    			if (dirty[0] & /*selectedId*/ 4096) day_changes.selectedId = /*selectedId*/ ctx[12];
      			day.$set(day_changes);
      		},
      		i(local) {
-@@ -2199,7 +2224,7 @@
+@@ -2199,7 +2384,7 @@
      	};
      }
  
 -    // (73:6) {#each month as week (week.weekNum)}
-+    // (77:6) {#each month as week (week.weekNum)}
++    // (79:6) {#each month as week (week.weekNum)}
      function create_each_block(key_1, ctx) {
      	let tr;
      	let t0;
-@@ -2208,8 +2233,8 @@
+@@ -2208,8 +2393,8 @@
      	let t1;
      	let current;
      	let if_block = /*showWeekNums*/ ctx[1] && create_if_block(ctx);
 -    	let each_value_1 = /*week*/ ctx[18].days;
 -    	const get_key = ctx => /*day*/ ctx[21].format();
-+    	let each_value_1 = /*week*/ ctx[20].days;
-+    	const get_key = ctx => /*day*/ ctx[23].format();
++    	let each_value_1 = /*week*/ ctx[21].days;
++    	const get_key = ctx => /*day*/ ctx[24].format();
  
      	for (let i = 0; i < each_value_1.length; i += 1) {
      		let child_ctx = get_each_context_1(ctx, each_value_1, i);
-@@ -2251,7 +2276,7 @@
+@@ -2251,7 +2436,7 @@
      				if (if_block) {
      					if_block.p(ctx, dirty);
  
@@ -408,47 +753,48 @@ index 41b7e61..71a4ed7 100644
      						transition_in(if_block, 1);
      					}
      				} else {
-@@ -2270,8 +2295,8 @@
+@@ -2270,8 +2455,8 @@
      				check_outros();
      			}
  
 -    			if (dirty & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, getDailyMetadata, sources, selectedId*/ 18261) {
 -    				each_value_1 = /*week*/ ctx[18].days;
-+    			if (dirty[0] & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, sources, selectedId*/ 72789) {
-+    				each_value_1 = /*week*/ ctx[20].days;
++    			if (dirty[0] & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, sources, selectedId*/ 145493) {
++    				each_value_1 = /*week*/ ctx[21].days;
      				group_outros();
      				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value_1, each_1_lookup, tr, outro_and_destroy_block, create_each_block_1, t1, get_each_context_1);
      				check_outros();
-@@ -2326,16 +2351,18 @@
+@@ -2326,16 +2511,19 @@
  
      	nav = new Nav({
      			props: {
 -    				today: /*today*/ ctx[10],
-+    				today: /*today*/ ctx[12],
++    				today: /*today*/ ctx[13],
      				displayedMonth: /*displayedMonth*/ ctx[0],
 -    				incrementDisplayedMonth: /*incrementDisplayedMonth*/ ctx[11],
 -    				decrementDisplayedMonth: /*decrementDisplayedMonth*/ ctx[12],
 -    				resetDisplayedMonth: /*resetDisplayedMonth*/ ctx[13]
-+    				incrementDisplayedMonth: /*incrementDisplayedMonth*/ ctx[13],
-+    				decrementDisplayedMonth: /*decrementDisplayedMonth*/ ctx[14],
++    				incrementDisplayedMonth: /*incrementDisplayedMonth*/ ctx[14],
++    				decrementDisplayedMonth: /*decrementDisplayedMonth*/ ctx[15],
 +    				onClickMonth: /*onClickMonth*/ ctx[8],
 +    				onClickYear: /*onClickYear*/ ctx[9],
-+    				resetDisplayedMonth: /*resetDisplayedMonth*/ ctx[15]
++    				onClickQuarter: /*onClickQuarter*/ ctx[10],
++    				resetDisplayedMonth: /*resetDisplayedMonth*/ ctx[16]
      			}
      		});
  
      	let if_block0 = /*showWeekNums*/ ctx[1] && create_if_block_2();
 -    	let each_value_3 = /*month*/ ctx[14][1].days;
-+    	let each_value_3 = /*month*/ ctx[16][1].days;
++    	let each_value_3 = /*month*/ ctx[17][1].days;
      	let each_blocks_2 = [];
  
      	for (let i = 0; i < each_value_3.length; i += 1) {
-@@ -2343,15 +2370,15 @@
+@@ -2343,15 +2531,15 @@
      	}
  
      	let if_block1 = /*showWeekNums*/ ctx[1] && create_if_block_1();
 -    	let each_value_2 = /*daysOfWeek*/ ctx[15];
-+    	let each_value_2 = /*daysOfWeek*/ ctx[17];
++    	let each_value_2 = /*daysOfWeek*/ ctx[18];
      	let each_blocks_1 = [];
  
      	for (let i = 0; i < each_value_2.length; i += 1) {
@@ -457,21 +803,21 @@ index 41b7e61..71a4ed7 100644
  
 -    	let each_value = /*month*/ ctx[14];
 -    	const get_key = ctx => /*week*/ ctx[18].weekNum;
-+    	let each_value = /*month*/ ctx[16];
-+    	const get_key = ctx => /*week*/ ctx[20].weekNum;
++    	let each_value = /*month*/ ctx[17];
++    	const get_key = ctx => /*week*/ ctx[21].weekNum;
  
      	for (let i = 0; i < each_value.length; i += 1) {
      		let child_ctx = get_each_context(ctx, each_value, i);
-@@ -2393,7 +2420,7 @@
+@@ -2393,7 +2581,7 @@
      			attr(table, "class", "calendar svelte-pcimu8");
      			attr(div, "id", "calendar-container");
      			attr(div, "class", "container svelte-pcimu8");
 -    			toggle_class(div, "is-mobile", /*isMobile*/ ctx[16]);
-+    			toggle_class(div, "is-mobile", /*isMobile*/ ctx[18]);
++    			toggle_class(div, "is-mobile", /*isMobile*/ ctx[19]);
      		},
      		m(target, anchor) {
      			insert(target, div, anchor);
-@@ -2427,10 +2454,12 @@
+@@ -2427,10 +2615,13 @@
  
      			current = true;
      		},
@@ -480,65 +826,67 @@ index 41b7e61..71a4ed7 100644
      			const nav_changes = {};
 -    			if (dirty & /*today*/ 1024) nav_changes.today = /*today*/ ctx[10];
 -    			if (dirty & /*displayedMonth*/ 1) nav_changes.displayedMonth = /*displayedMonth*/ ctx[0];
-+    			if (dirty[0] & /*today*/ 4096) nav_changes.today = /*today*/ ctx[12];
++    			if (dirty[0] & /*today*/ 8192) nav_changes.today = /*today*/ ctx[13];
 +    			if (dirty[0] & /*displayedMonth*/ 1) nav_changes.displayedMonth = /*displayedMonth*/ ctx[0];
 +    			if (dirty[0] & /*onClickMonth*/ 256) nav_changes.onClickMonth = /*onClickMonth*/ ctx[8];
 +    			if (dirty[0] & /*onClickYear*/ 512) nav_changes.onClickYear = /*onClickYear*/ ctx[9];
++    			if (dirty[0] & /*onClickQuarter*/ 1024) nav_changes.onClickQuarter = /*onClickQuarter*/ ctx[10];
      			nav.$set(nav_changes);
  
      			if (/*showWeekNums*/ ctx[1]) {
-@@ -2444,8 +2473,8 @@
+@@ -2444,8 +2635,8 @@
      				if_block0 = null;
      			}
  
 -    			if (dirty & /*isWeekend, month*/ 16384) {
 -    				each_value_3 = /*month*/ ctx[14][1].days;
-+    			if (dirty[0] & /*month*/ 65536) {
-+    				each_value_3 = /*month*/ ctx[16][1].days;
++    			if (dirty[0] & /*month*/ 131072) {
++    				each_value_3 = /*month*/ ctx[17][1].days;
      				let i;
  
      				for (i = 0; i < each_value_3.length; i += 1) {
-@@ -2478,8 +2507,8 @@
+@@ -2478,8 +2669,8 @@
      				if_block1 = null;
      			}
  
 -    			if (dirty & /*daysOfWeek*/ 32768) {
 -    				each_value_2 = /*daysOfWeek*/ ctx[15];
-+    			if (dirty[0] & /*daysOfWeek*/ 131072) {
-+    				each_value_2 = /*daysOfWeek*/ ctx[17];
++    			if (dirty[0] & /*daysOfWeek*/ 262144) {
++    				each_value_2 = /*daysOfWeek*/ ctx[18];
      				let i;
  
      				for (i = 0; i < each_value_2.length; i += 1) {
-@@ -2501,8 +2530,8 @@
+@@ -2501,8 +2692,8 @@
      				each_blocks_1.length = each_value_2.length;
      			}
  
 -    			if (dirty & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, getDailyMetadata, sources, selectedId, getWeeklyMetadata, onClickWeek, onContextMenuWeek, onHoverWeek, showWeekNums*/ 18431) {
 -    				each_value = /*month*/ ctx[14];
-+    			if (dirty[0] & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, sources, selectedId, onClickWeek, onContextMenuWeek, onHoverWeek, showWeekNums*/ 72959) {
-+    				each_value = /*month*/ ctx[16];
++    			if (dirty[0] & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, sources, selectedId, onClickWeek, onContextMenuWeek, onHoverWeek, showWeekNums*/ 145663) {
++    				each_value = /*month*/ ctx[17];
      				group_outros();
      				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each2_lookup, tbody, outro_and_destroy_block, create_each_block, null, get_each_context);
      				check_outros();
-@@ -2553,6 +2582,8 @@
+@@ -2553,6 +2744,9 @@
      	let { onContextMenuWeek } = $$props;
      	let { onClickDay } = $$props;
      	let { onClickWeek } = $$props;
 +    	let { onClickMonth } = $$props;
 +    	let { onClickYear } = $$props;
++    	let { onClickQuarter } = $$props;
      	let { sources = [] } = $$props;
      	let { selectedId } = $$props;
      	let { today = window.moment() } = $$props;
-@@ -2576,7 +2607,7 @@
+@@ -2576,7 +2770,7 @@
      	}
  
      	$$self.$$set = $$props => {
 -    		if ("localeData" in $$props) $$invalidate(17, localeData = $$props.localeData);
-+    		if ("localeData" in $$props) $$invalidate(19, localeData = $$props.localeData);
++    		if ("localeData" in $$props) $$invalidate(20, localeData = $$props.localeData);
      		if ("showWeekNums" in $$props) $$invalidate(1, showWeekNums = $$props.showWeekNums);
      		if ("onHoverDay" in $$props) $$invalidate(2, onHoverDay = $$props.onHoverDay);
      		if ("onHoverWeek" in $$props) $$invalidate(3, onHoverWeek = $$props.onHoverWeek);
-@@ -2584,19 +2615,21 @@
+@@ -2584,19 +2778,22 @@
      		if ("onContextMenuWeek" in $$props) $$invalidate(5, onContextMenuWeek = $$props.onContextMenuWeek);
      		if ("onClickDay" in $$props) $$invalidate(6, onClickDay = $$props.onClickDay);
      		if ("onClickWeek" in $$props) $$invalidate(7, onClickWeek = $$props.onClickWeek);
@@ -547,36 +895,38 @@ index 41b7e61..71a4ed7 100644
 -    		if ("today" in $$props) $$invalidate(10, today = $$props.today);
 +    		if ("onClickMonth" in $$props) $$invalidate(8, onClickMonth = $$props.onClickMonth);
 +    		if ("onClickYear" in $$props) $$invalidate(9, onClickYear = $$props.onClickYear);
-+    		if ("sources" in $$props) $$invalidate(10, sources = $$props.sources);
-+    		if ("selectedId" in $$props) $$invalidate(11, selectedId = $$props.selectedId);
-+    		if ("today" in $$props) $$invalidate(12, today = $$props.today);
++    		if ("onClickQuarter" in $$props) $$invalidate(10, onClickQuarter = $$props.onClickQuarter);
++    		if ("sources" in $$props) $$invalidate(11, sources = $$props.sources);
++    		if ("selectedId" in $$props) $$invalidate(12, selectedId = $$props.selectedId);
++    		if ("today" in $$props) $$invalidate(13, today = $$props.today);
      		if ("displayedMonth" in $$props) $$invalidate(0, displayedMonth = $$props.displayedMonth);
      	};
  
      	$$self.$$.update = () => {
 -    		if ($$self.$$.dirty & /*displayedMonth, localeData*/ 131073) {
 -    			$$invalidate(14, month = getMonth(displayedMonth, localeData));
-+    		if ($$self.$$.dirty[0] & /*displayedMonth, localeData*/ 524289) {
-+    			$$invalidate(16, month = getMonth(displayedMonth, localeData));
++    		if ($$self.$$.dirty[0] & /*displayedMonth, localeData*/ 1048577) {
++    			$$invalidate(17, month = getMonth(displayedMonth, localeData));
      		}
  
 -    		if ($$self.$$.dirty & /*today, localeData*/ 132096) {
 -    			$$invalidate(15, daysOfWeek = getDaysOfWeek(today, localeData));
-+    		if ($$self.$$.dirty[0] & /*today, localeData*/ 528384) {
-+    			$$invalidate(17, daysOfWeek = getDaysOfWeek(today, localeData));
++    		if ($$self.$$.dirty[0] & /*today, localeData*/ 1056768) {
++    			$$invalidate(18, daysOfWeek = getDaysOfWeek(today, localeData));
      		}
      	};
  
-@@ -2609,6 +2642,8 @@
+@@ -2609,6 +2806,9 @@
      		onContextMenuWeek,
      		onClickDay,
      		onClickWeek,
 +    		onClickMonth,
 +    		onClickYear,
++    		onClickQuarter,
      		sources,
      		selectedId,
      		today,
-@@ -2627,35 +2662,45 @@
+@@ -2627,35 +2827,46 @@
      		super();
      		if (!document.getElementById("svelte-pcimu8-style")) add_css();
  
@@ -604,7 +954,7 @@ index 41b7e61..71a4ed7 100644
 +    			create_fragment,
 +    			not_equal,
 +    			{
-+    				localeData: 19,
++    				localeData: 20,
 +    				showWeekNums: 1,
 +    				onHoverDay: 2,
 +    				onHoverWeek: 3,
@@ -614,13 +964,14 @@ index 41b7e61..71a4ed7 100644
 +    				onClickWeek: 7,
 +    				onClickMonth: 8,
 +    				onClickYear: 9,
-+    				sources: 10,
-+    				selectedId: 11,
-+    				today: 12,
++    				onClickQuarter: 10,
++    				sources: 11,
++    				selectedId: 12,
++    				today: 13,
 +    				displayedMonth: 0,
-+    				incrementDisplayedMonth: 13,
-+    				decrementDisplayedMonth: 14,
-+    				resetDisplayedMonth: 15
++    				incrementDisplayedMonth: 14,
++    				decrementDisplayedMonth: 15,
++    				resetDisplayedMonth: 16
 +    			},
 +    			[-1, -1]
 +    		);
@@ -628,22 +979,22 @@ index 41b7e61..71a4ed7 100644
  
      	get incrementDisplayedMonth() {
 -    		return this.$$.ctx[11];
-+    		return this.$$.ctx[13];
++    		return this.$$.ctx[14];
      	}
  
      	get decrementDisplayedMonth() {
 -    		return this.$$.ctx[12];
-+    		return this.$$.ctx[14];
++    		return this.$$.ctx[15];
      	}
  
      	get resetDisplayedMonth() {
 -    		return this.$$.ctx[13];
-+    		return this.$$.ctx[15];
++    		return this.$$.ctx[16];
      	}
      }
  
 diff --git a/node_modules/obsidian-calendar-ui/dist/index.mjs b/node_modules/obsidian-calendar-ui/dist/index.mjs
-index d5260eb..f14e1a2 100644
+index d5260eb..0d87c4b 100644
 --- a/node_modules/obsidian-calendar-ui/dist/index.mjs
 +++ b/node_modules/obsidian-calendar-ui/dist/index.mjs
 @@ -579,7 +579,7 @@ function getDateUID(date, granularity = "day") {
@@ -655,6 +1006,24 @@ index d5260eb..f14e1a2 100644
  
  function add_css$5() {
  	var style = element("style");
+@@ -626,7 +626,7 @@ function create_else_block$1(ctx) {
+ }
+ 
+ // (6:0) {#if isFilled}
+-function create_if_block$2(ctx) {
++function create_if_block$3(ctx) {
+ 	let svg;
+ 	let circle;
+ 	let svg_class_value;
+@@ -666,7 +666,7 @@ function create_fragment$6(ctx) {
+ 	let if_block_anchor;
+ 
+ 	function select_block_type(ctx, dirty) {
+-		if (/*isFilled*/ ctx[1]) return create_if_block$2;
++		if (/*isFilled*/ ctx[1]) return create_if_block$3;
+ 		return create_else_block$1;
+ 	}
+ 
 @@ -726,7 +726,7 @@ class Dot extends SvelteComponent {
  	}
  }
@@ -664,6 +1033,15 @@ index d5260eb..f14e1a2 100644
  
  const get_default_slot_changes_1 = dirty => ({});
  const get_default_slot_context_1 = ctx => ({ metadata: null });
+@@ -773,7 +773,7 @@ function create_else_block(ctx) {
+ }
+ 
+ // (7:0) {#if metadata}
+-function create_if_block$1(ctx) {
++function create_if_block$2(ctx) {
+ 	let await_block_anchor;
+ 	let promise;
+ 	let current;
 @@ -836,7 +836,7 @@ function create_if_block$1(ctx) {
  	};
  }
@@ -682,6 +1060,15 @@ index d5260eb..f14e1a2 100644
  function create_pending_block(ctx) {
  	return {
  		c: noop,
+@@ -904,7 +904,7 @@ function create_fragment$5(ctx) {
+ 	let if_block;
+ 	let if_block_anchor;
+ 	let current;
+-	const if_block_creators = [create_if_block$1, create_else_block];
++	const if_block_creators = [create_if_block$2, create_else_block];
+ 	const if_blocks = [];
+ 
+ 	function select_block_type(ctx, dirty) {
 @@ -1028,7 +1028,7 @@ function getMonth(displayedMonth, ..._args) {
      return month;
  }
@@ -691,6 +1078,48 @@ index d5260eb..f14e1a2 100644
  
  function add_css$4() {
  	var style = element("style");
+@@ -1037,14 +1037,14 @@ function add_css$4() {
+ 	append(document.head, style);
+ }
+ 
+-function get_each_context$2(ctx, list, i) {
++function get_each_context$3(ctx, list, i) {
+ 	const child_ctx = ctx.slice();
+ 	child_ctx[11] = list[i];
+ 	return child_ctx;
+ }
+ 
+ // (36:8) {#each metadata.dots as dot}
+-function create_each_block$2(ctx) {
++function create_each_block$3(ctx) {
+ 	let dot;
+ 	let current;
+ 	const dot_spread_levels = [/*dot*/ ctx[11]];
+@@ -1101,7 +1101,7 @@ function create_default_slot$1(ctx) {
+ 	let each_blocks = [];
+ 
+ 	for (let i = 0; i < each_value.length; i += 1) {
+-		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
++		each_blocks[i] = create_each_block$3(get_each_context$3(ctx, each_value, i));
+ 	}
+ 
+ 	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+@@ -1176,13 +1176,13 @@ function create_default_slot$1(ctx) {
+ 				let i;
+ 
+ 				for (i = 0; i < each_value.length; i += 1) {
+-					const child_ctx = get_each_context$2(ctx, each_value, i);
++					const child_ctx = get_each_context$3(ctx, each_value, i);
+ 
+ 					if (each_blocks[i]) {
+ 						each_blocks[i].p(child_ctx, dirty);
+ 						transition_in(each_blocks[i], 1);
+ 					} else {
+-						each_blocks[i] = create_each_block$2(child_ctx);
++						each_blocks[i] = create_each_block$3(child_ctx);
+ 						each_blocks[i].c();
+ 						transition_in(each_blocks[i], 1);
+ 						each_blocks[i].m(div0, null);
 @@ -1349,7 +1349,7 @@ class Day extends SvelteComponent {
  	}
  }
@@ -700,7 +1129,7 @@ index d5260eb..f14e1a2 100644
  
  function add_css$3() {
  	var style = element("style");
-@@ -1441,7 +1441,7 @@ class Arrow extends SvelteComponent {
+@@ -1441,17 +1441,102 @@ class Arrow extends SvelteComponent {
  	}
  }
  
@@ -709,37 +1138,279 @@ index d5260eb..f14e1a2 100644
  
  function add_css$2() {
  	var style = element("style");
-@@ -1501,7 +1501,7 @@ function create_fragment$2(ctx) {
- 			create_component(arrow0.$$.fragment);
- 			t4 = space();
+-	style.id = "svelte-1vwr9dd-style";
+-	style.textContent = ".nav.svelte-1vwr9dd.svelte-1vwr9dd{align-items:center;display:flex;margin:0.6em 0 1em;padding:0 8px;width:100%}.nav.is-mobile.svelte-1vwr9dd.svelte-1vwr9dd{padding:0}.title.svelte-1vwr9dd.svelte-1vwr9dd{color:var(--color-text-title);font-size:1.5em;margin:0}.is-mobile.svelte-1vwr9dd .title.svelte-1vwr9dd{font-size:1.3em}.month.svelte-1vwr9dd.svelte-1vwr9dd{font-weight:500;text-transform:capitalize}.year.svelte-1vwr9dd.svelte-1vwr9dd{color:var(--interactive-accent)}.right-nav.svelte-1vwr9dd.svelte-1vwr9dd{display:flex;justify-content:center;margin-left:auto}.reset-button.svelte-1vwr9dd.svelte-1vwr9dd{cursor:pointer;border-radius:4px;color:var(--text-muted);font-size:0.7em;font-weight:600;letter-spacing:1px;margin:0 4px;padding:0px 4px;text-transform:uppercase}.is-mobile.svelte-1vwr9dd .reset-button.svelte-1vwr9dd{display:none}";
++	style.id = "svelte-ac7gen-style";
++	style.textContent = ".nav.svelte-ac7gen.svelte-ac7gen{align-items:center;display:flex;margin:0.6em 0 1em;padding:0 8px;width:100%}.nav.is-mobile.svelte-ac7gen.svelte-ac7gen{padding:0}.title-container.svelte-ac7gen.svelte-ac7gen{display:flex;flex-direction:column;align-items:center}.title.svelte-ac7gen.svelte-ac7gen{color:var(--color-text-title);font-size:1.5em;margin:0}.is-mobile.svelte-ac7gen .title.svelte-ac7gen{font-size:1.3em}.month.svelte-ac7gen.svelte-ac7gen{font-weight:500;text-transform:capitalize}.year.svelte-ac7gen.svelte-ac7gen{color:var(--interactive-accent)}.quarters.svelte-ac7gen.svelte-ac7gen{display:flex;justify-content:center;align-items:center;margin-top:4px;padding-left:2px;padding-right:2px}.quarter.svelte-ac7gen.svelte-ac7gen{font-size:0.6em;color:var(--text-muted);margin:0 4px}.quarter.active.svelte-ac7gen.svelte-ac7gen{color:var(--interactive-accent);font-weight:bold}.divider.svelte-ac7gen.svelte-ac7gen{font-size:0.3em;color:var(--text-muted);margin:0 4px}.right-nav.svelte-ac7gen.svelte-ac7gen{display:flex;justify-content:center;margin-left:auto}.reset-button.svelte-ac7gen.svelte-ac7gen{cursor:pointer;border-radius:4px;color:var(--text-muted);font-size:0.7em;font-weight:600;letter-spacing:1px;margin:0 4px;padding:0px 4px;text-transform:uppercase}.is-mobile.svelte-ac7gen .reset-button.svelte-ac7gen{display:none}";
+ 	append(document.head, style);
+ }
+ 
++function get_each_context$2(ctx, list, i) {
++	const child_ctx = ctx.slice();
++	child_ctx[17] = list[i];
++	child_ctx[19] = i;
++	return child_ctx;
++}
++
++// (56:8) {#if index < 3}
++function create_if_block$1(ctx) {
++	let span;
++
++	return {
++		c() {
++			span = element("span");
++			span.textContent = "|";
++			attr(span, "class", "divider svelte-ac7gen");
++		},
++		m(target, anchor) {
++			insert(target, span, anchor);
++		},
++		d(detaching) {
++			if (detaching) detach(span);
++		}
++	};
++}
++
++// (46:6) {#each [1, 2, 3, 4] as quarter, index}
++function create_each_block$2(ctx) {
++	let span;
++	let t0;
++	let t1;
++	let t2;
++	let if_block_anchor;
++	let mounted;
++	let dispose;
++
++	function click_handler_2(...args) {
++		return /*click_handler_2*/ ctx[16](/*quarter*/ ctx[17], ...args);
++	}
++
++	let if_block = /*index*/ ctx[19] < 3 && create_if_block$1();
++
++	return {
++		c() {
++			span = element("span");
++			t0 = text("Q");
++			t1 = text(/*quarter*/ ctx[17]);
++			t2 = space();
++			if (if_block) if_block.c();
++			if_block_anchor = empty();
++			attr(span, "class", "quarter svelte-ac7gen");
++			toggle_class(span, "active", /*quarter*/ ctx[17] === /*currentQuarter*/ ctx[7]);
++		},
++		m(target, anchor) {
++			insert(target, span, anchor);
++			append(span, t0);
++			append(span, t1);
++			insert(target, t2, anchor);
++			if (if_block) if_block.m(target, anchor);
++			insert(target, if_block_anchor, anchor);
++
++			if (!mounted) {
++				dispose = listen(span, "click", click_handler_2);
++				mounted = true;
++			}
++		},
++		p(new_ctx, dirty) {
++			ctx = new_ctx;
++
++			if (dirty & /*currentQuarter*/ 128) {
++				toggle_class(span, "active", /*quarter*/ ctx[17] === /*currentQuarter*/ ctx[7]);
++			}
++		},
++		d(detaching) {
++			if (detaching) detach(span);
++			if (detaching) detach(t2);
++			if (if_block) if_block.d(detaching);
++			if (detaching) detach(if_block_anchor);
++			mounted = false;
++			dispose();
++		}
++	};
++}
++
+ function create_fragment$2(ctx) {
+-	let div2;
++	let div4;
++	let div1;
+ 	let h3;
+ 	let span0;
+ 	let t0_value = /*displayedMonth*/ ctx[0].format("MMM") + "";
+@@ -1461,15 +1546,23 @@ function create_fragment$2(ctx) {
+ 	let t2_value = /*displayedMonth*/ ctx[0].format("YYYY") + "";
+ 	let t2;
+ 	let t3;
+-	let div1;
+-	let arrow0;
+-	let t4;
+ 	let div0;
+-	let t6;
++	let t4;
++	let div3;
++	let arrow0;
++	let t5;
++	let div2;
++	let t7;
+ 	let arrow1;
+ 	let current;
+ 	let mounted;
+ 	let dispose;
++	let each_value = [1, 2, 3, 4];
++	let each_blocks = [];
++
++	for (let i = 0; i < 4; i += 1) {
++		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
++	}
+ 
+ 	arrow0 = new Arrow({
+ 			props: {
+@@ -1489,7 +1582,8 @@ function create_fragment$2(ctx) {
+ 
+ 	return {
+ 		c() {
+-			div2 = element("div");
++			div4 = element("div");
++			div1 = element("div");
+ 			h3 = element("h3");
+ 			span0 = element("span");
+ 			t0 = text(t0_value);
+@@ -1497,44 +1591,60 @@ function create_fragment$2(ctx) {
+ 			span1 = element("span");
+ 			t2 = text(t2_value);
+ 			t3 = space();
+-			div1 = element("div");
+-			create_component(arrow0.$$.fragment);
+-			t4 = space();
  			div0 = element("div");
 -			div0.textContent = `${/*todayDisplayStr*/ ctx[4]}`;
-+			div0.textContent = `${/*todayDisplayStr*/ ctx[6]}`;
- 			t6 = space();
+-			t6 = space();
++
++			for (let i = 0; i < 4; i += 1) {
++				each_blocks[i].c();
++			}
++
++			t4 = space();
++			div3 = element("div");
++			create_component(arrow0.$$.fragment);
++			t5 = space();
++			div2 = element("div");
++			div2.textContent = `${/*todayDisplayStr*/ ctx[8]}`;
++			t7 = space();
  			create_component(arrow1.$$.fragment);
- 			attr(span0, "class", "month svelte-1vwr9dd");
-@@ -1510,7 +1510,7 @@ function create_fragment$2(ctx) {
- 			attr(div0, "class", "reset-button svelte-1vwr9dd");
- 			attr(div1, "class", "right-nav svelte-1vwr9dd");
- 			attr(div2, "class", "nav svelte-1vwr9dd");
+-			attr(span0, "class", "month svelte-1vwr9dd");
+-			attr(span1, "class", "year svelte-1vwr9dd");
+-			attr(h3, "class", "title svelte-1vwr9dd");
+-			attr(div0, "class", "reset-button svelte-1vwr9dd");
+-			attr(div1, "class", "right-nav svelte-1vwr9dd");
+-			attr(div2, "class", "nav svelte-1vwr9dd");
 -			toggle_class(div2, "is-mobile", /*isMobile*/ ctx[5]);
-+			toggle_class(div2, "is-mobile", /*isMobile*/ ctx[7]);
++			attr(span0, "class", "month svelte-ac7gen");
++			attr(span1, "class", "year svelte-ac7gen");
++			attr(h3, "class", "title svelte-ac7gen");
++			attr(div0, "class", "quarters svelte-ac7gen");
++			attr(div1, "class", "title-container svelte-ac7gen");
++			attr(div2, "class", "reset-button svelte-ac7gen");
++			attr(div3, "class", "right-nav svelte-ac7gen");
++			attr(div4, "class", "nav svelte-ac7gen");
++			toggle_class(div4, "is-mobile", /*isMobile*/ ctx[9]);
  		},
  		m(target, anchor) {
- 			insert(target, div2, anchor);
-@@ -1531,9 +1531,8 @@ function create_fragment$2(ctx) {
+-			insert(target, div2, anchor);
+-			append(div2, h3);
++			insert(target, div4, anchor);
++			append(div4, div1);
++			append(div1, h3);
+ 			append(h3, span0);
+ 			append(span0, t0);
+ 			append(h3, t1);
+ 			append(h3, span1);
+ 			append(span1, t2);
+-			append(div2, t3);
+-			append(div2, div1);
+-			mount_component(arrow0, div1, null);
+-			append(div1, t4);
++			append(div1, t3);
+ 			append(div1, div0);
+-			append(div1, t6);
+-			mount_component(arrow1, div1, null);
++
++			for (let i = 0; i < 4; i += 1) {
++				each_blocks[i].m(div0, null);
++			}
++
++			append(div4, t4);
++			append(div4, div3);
++			mount_component(arrow0, div3, null);
++			append(div3, t5);
++			append(div3, div2);
++			append(div3, t7);
++			mount_component(arrow1, div3, null);
+ 			current = true;
  
  			if (!mounted) {
  				dispose = [
 -					listen(h3, "click", function () {
 -						if (is_function(/*resetDisplayedMonth*/ ctx[1])) /*resetDisplayedMonth*/ ctx[1].apply(this, arguments);
 -					}),
-+					listen(span0, "click", /*click_handler*/ ctx[11]),
-+					listen(span1, "click", /*click_handler_1*/ ctx[12]),
- 					listen(div0, "click", function () {
+-					listen(div0, "click", function () {
++					listen(span0, "click", /*click_handler*/ ctx[14]),
++					listen(span1, "click", /*click_handler_1*/ ctx[15]),
++					listen(div2, "click", function () {
  						if (is_function(/*resetDisplayedMonth*/ ctx[1])) /*resetDisplayedMonth*/ ctx[1].apply(this, arguments);
  					})
-@@ -1581,6 +1580,10 @@ function instance$2($$self, $$props, $$invalidate) {
+ 				];
+@@ -1546,6 +1656,28 @@ function create_fragment$2(ctx) {
+ 			ctx = new_ctx;
+ 			if ((!current || dirty & /*displayedMonth*/ 1) && t0_value !== (t0_value = /*displayedMonth*/ ctx[0].format("MMM") + "")) set_data(t0, t0_value);
+ 			if ((!current || dirty & /*displayedMonth*/ 1) && t2_value !== (t2_value = /*displayedMonth*/ ctx[0].format("YYYY") + "")) set_data(t2, t2_value);
++
++			if (dirty & /*currentQuarter, onClickQuarter, getStartOfQuarter, displayedMonth*/ 1217) {
++				each_value = [1, 2, 3, 4];
++				let i;
++
++				for (i = 0; i < 4; i += 1) {
++					const child_ctx = get_each_context$2(ctx, each_value, i);
++
++					if (each_blocks[i]) {
++						each_blocks[i].p(child_ctx, dirty);
++					} else {
++						each_blocks[i] = create_each_block$2(child_ctx);
++						each_blocks[i].c();
++						each_blocks[i].m(div0, null);
++					}
++				}
++
++				for (; i < 4; i += 1) {
++					each_blocks[i].d(1);
++				}
++			}
++
+ 			const arrow0_changes = {};
+ 			if (dirty & /*decrementDisplayedMonth*/ 8) arrow0_changes.onClick = /*decrementDisplayedMonth*/ ctx[3];
+ 			arrow0.$set(arrow0_changes);
+@@ -1565,7 +1697,8 @@ function create_fragment$2(ctx) {
+ 			current = false;
+ 		},
+ 		d(detaching) {
+-			if (detaching) detach(div2);
++			if (detaching) detach(div4);
++			destroy_each(each_blocks, detaching);
+ 			destroy_component(arrow0);
+ 			destroy_component(arrow1);
+ 			mounted = false;
+@@ -1574,13 +1707,23 @@ function create_fragment$2(ctx) {
+ 	};
+ }
+ 
++function getCurrentQuarter(month) {
++	return Math.floor(month / 3) + 1;
++}
++
+ function instance$2($$self, $$props, $$invalidate) {
++	let currentQuarter;
+ 	
+ 	let { displayedMonth } = $$props;
+ 	let { today } = $$props;
  	let { resetDisplayedMonth } = $$props;
  	let { incrementDisplayedMonth } = $$props;
  	let { decrementDisplayedMonth } = $$props;
@@ -747,13 +1418,20 @@ index d5260eb..f14e1a2 100644
 +	let { onClickWeek } = $$props;
 +	let { onClickMonth } = $$props;
 +	let { onClickYear } = $$props;
++	let { onClickQuarter } = $$props;
  
  	// Get the word 'Today' but localized to the current language
  	const todayDisplayStr = today.calendar().split(/\d|\s/)[0];
-@@ -1588,12 +1591,24 @@ function instance$2($$self, $$props, $$invalidate) {
+@@ -1588,12 +1731,39 @@ function instance$2($$self, $$props, $$invalidate) {
  	// eslint-disable-next-line @typescript-eslint/no-explicit-any
  	let isMobile = window.app.isMobile;
  
++	// Function to get the start of a quarter
++	function getStartOfQuarter(year, quarter) {
++		const startMonth = (quarter - 1) * 3; // Calculate the starting month of the quarter
++		return displayedMonth.clone().year(year).month(startMonth).startOf("month");
++	}
++
 +	const click_handler = event => {
 +		onClickMonth(displayedMonth, event.metaKey);
 +	};
@@ -762,51 +1440,69 @@ index d5260eb..f14e1a2 100644
 +		onClickYear(displayedMonth, event.metaKey);
 +	};
 +
++	const click_handler_2 = (quarter, event) => onClickQuarter(getStartOfQuarter(displayedMonth.year(), quarter), event.metaKey);
++
  	$$self.$$set = $$props => {
  		if ("displayedMonth" in $$props) $$invalidate(0, displayedMonth = $$props.displayedMonth);
 -		if ("today" in $$props) $$invalidate(6, today = $$props.today);
-+		if ("today" in $$props) $$invalidate(8, today = $$props.today);
++		if ("today" in $$props) $$invalidate(11, today = $$props.today);
  		if ("resetDisplayedMonth" in $$props) $$invalidate(1, resetDisplayedMonth = $$props.resetDisplayedMonth);
  		if ("incrementDisplayedMonth" in $$props) $$invalidate(2, incrementDisplayedMonth = $$props.incrementDisplayedMonth);
  		if ("decrementDisplayedMonth" in $$props) $$invalidate(3, decrementDisplayedMonth = $$props.decrementDisplayedMonth);
-+		if ("onClickDay" in $$props) $$invalidate(9, onClickDay = $$props.onClickDay);
-+		if ("onClickWeek" in $$props) $$invalidate(10, onClickWeek = $$props.onClickWeek);
++		if ("onClickDay" in $$props) $$invalidate(12, onClickDay = $$props.onClickDay);
++		if ("onClickWeek" in $$props) $$invalidate(13, onClickWeek = $$props.onClickWeek);
 +		if ("onClickMonth" in $$props) $$invalidate(4, onClickMonth = $$props.onClickMonth);
 +		if ("onClickYear" in $$props) $$invalidate(5, onClickYear = $$props.onClickYear);
++		if ("onClickQuarter" in $$props) $$invalidate(6, onClickQuarter = $$props.onClickQuarter);
++	};
++
++	$$self.$$.update = () => {
++		if ($$self.$$.dirty & /*displayedMonth*/ 1) {
++			$$invalidate(7, currentQuarter = getCurrentQuarter(displayedMonth.month()));
++		}
  	};
  
  	return [
-@@ -1601,9 +1616,15 @@ function instance$2($$self, $$props, $$invalidate) {
+@@ -1601,28 +1771,43 @@ function instance$2($$self, $$props, $$invalidate) {
  		resetDisplayedMonth,
  		incrementDisplayedMonth,
  		decrementDisplayedMonth,
 +		onClickMonth,
 +		onClickYear,
++		onClickQuarter,
++		currentQuarter,
  		todayDisplayStr,
  		isMobile,
 -		today
++		getStartOfQuarter,
 +		today,
 +		onClickDay,
 +		onClickWeek,
 +		click_handler,
-+		click_handler_1
++		click_handler_1,
++		click_handler_2
  	];
  }
  
-@@ -1614,15 +1635,19 @@ class Nav extends SvelteComponent {
+ class Nav extends SvelteComponent {
+ 	constructor(options) {
+ 		super();
+-		if (!document.getElementById("svelte-1vwr9dd-style")) add_css$2();
++		if (!document.getElementById("svelte-ac7gen-style")) add_css$2();
  
  		init(this, options, instance$2, create_fragment$2, safe_not_equal, {
  			displayedMonth: 0,
 -			today: 6,
-+			today: 8,
++			today: 11,
  			resetDisplayedMonth: 1,
  			incrementDisplayedMonth: 2,
 -			decrementDisplayedMonth: 3
 +			decrementDisplayedMonth: 3,
-+			onClickDay: 9,
-+			onClickWeek: 10,
++			onClickDay: 12,
++			onClickWeek: 13,
 +			onClickMonth: 4,
-+			onClickYear: 5
++			onClickYear: 5,
++			onClickQuarter: 6
  		});
  	}
  }
@@ -816,7 +1512,7 @@ index d5260eb..f14e1a2 100644
  
  function add_css$1() {
  	var style = element("style");
-@@ -1949,7 +1974,7 @@ function getWeeklyMetadata(sources, date, ..._args) {
+@@ -1949,7 +2134,7 @@ function getWeeklyMetadata(sources, date, ..._args) {
      return metadataReducer(sources.map((source) => source.getWeeklyMetadata(date)));
  }
  
@@ -825,56 +1521,56 @@ index d5260eb..f14e1a2 100644
  
  function add_css() {
  	var style = element("style");
-@@ -1960,29 +1985,29 @@ function add_css() {
+@@ -1960,29 +2145,29 @@ function add_css() {
  
  function get_each_context(ctx, list, i) {
  	const child_ctx = ctx.slice();
 -	child_ctx[18] = list[i];
-+	child_ctx[20] = list[i];
++	child_ctx[21] = list[i];
  	return child_ctx;
  }
  
  function get_each_context_1(ctx, list, i) {
  	const child_ctx = ctx.slice();
 -	child_ctx[21] = list[i];
-+	child_ctx[23] = list[i];
++	child_ctx[24] = list[i];
  	return child_ctx;
  }
  
  function get_each_context_2(ctx, list, i) {
  	const child_ctx = ctx.slice();
 -	child_ctx[24] = list[i];
-+	child_ctx[26] = list[i];
++	child_ctx[27] = list[i];
  	return child_ctx;
  }
  
  function get_each_context_3(ctx, list, i) {
  	const child_ctx = ctx.slice();
 -	child_ctx[27] = list[i];
-+	child_ctx[29] = list[i];
++	child_ctx[30] = list[i];
  	return child_ctx;
  }
  
 -// (55:6) {#if showWeekNums}
-+// (59:6) {#if showWeekNums}
++// (61:6) {#if showWeekNums}
  function create_if_block_2(ctx) {
  	let col;
  
-@@ -1999,7 +2024,7 @@ function create_if_block_2(ctx) {
+@@ -1999,7 +2184,7 @@ function create_if_block_2(ctx) {
  	};
  }
  
 -// (58:6) {#each month[1].days as date}
-+// (62:6) {#each month[1].days as date}
++// (64:6) {#each month[1].days as date}
  function create_each_block_3(ctx) {
  	let col;
  
-@@ -2007,14 +2032,14 @@ function create_each_block_3(ctx) {
+@@ -2007,14 +2192,14 @@ function create_each_block_3(ctx) {
  		c() {
  			col = element("col");
  			attr(col, "class", "svelte-pcimu8");
 -			toggle_class(col, "weekend", isWeekend(/*date*/ ctx[27]));
-+			toggle_class(col, "weekend", isWeekend(/*date*/ ctx[29]));
++			toggle_class(col, "weekend", isWeekend(/*date*/ ctx[30]));
  		},
  		m(target, anchor) {
  			insert(target, col, anchor);
@@ -882,58 +1578,58 @@ index d5260eb..f14e1a2 100644
  		p(ctx, dirty) {
 -			if (dirty & /*isWeekend, month*/ 16384) {
 -				toggle_class(col, "weekend", isWeekend(/*date*/ ctx[27]));
-+			if (dirty[0] & /*month*/ 65536) {
-+				toggle_class(col, "weekend", isWeekend(/*date*/ ctx[29]));
++			if (dirty[0] & /*month*/ 131072) {
++				toggle_class(col, "weekend", isWeekend(/*date*/ ctx[30]));
  			}
  		},
  		d(detaching) {
-@@ -2023,7 +2048,7 @@ function create_each_block_3(ctx) {
+@@ -2023,7 +2208,7 @@ function create_each_block_3(ctx) {
  	};
  }
  
 -// (64:8) {#if showWeekNums}
-+// (68:8) {#if showWeekNums}
++// (70:8) {#if showWeekNums}
  function create_if_block_1(ctx) {
  	let th;
  
-@@ -2042,10 +2067,10 @@ function create_if_block_1(ctx) {
+@@ -2042,10 +2227,10 @@ function create_if_block_1(ctx) {
  	};
  }
  
 -// (67:8) {#each daysOfWeek as dayOfWeek}
-+// (71:8) {#each daysOfWeek as dayOfWeek}
++// (73:8) {#each daysOfWeek as dayOfWeek}
  function create_each_block_2(ctx) {
  	let th;
 -	let t_value = /*dayOfWeek*/ ctx[24] + "";
-+	let t_value = /*dayOfWeek*/ ctx[26] + "";
++	let t_value = /*dayOfWeek*/ ctx[27] + "";
  	let t;
  
  	return {
-@@ -2059,7 +2084,7 @@ function create_each_block_2(ctx) {
+@@ -2059,7 +2244,7 @@ function create_each_block_2(ctx) {
  			append(th, t);
  		},
  		p(ctx, dirty) {
 -			if (dirty & /*daysOfWeek*/ 32768 && t_value !== (t_value = /*dayOfWeek*/ ctx[24] + "")) set_data(t, t_value);
-+			if (dirty[0] & /*daysOfWeek*/ 131072 && t_value !== (t_value = /*dayOfWeek*/ ctx[26] + "")) set_data(t, t_value);
++			if (dirty[0] & /*daysOfWeek*/ 262144 && t_value !== (t_value = /*dayOfWeek*/ ctx[27] + "")) set_data(t, t_value);
  		},
  		d(detaching) {
  			if (detaching) detach(th);
-@@ -2067,22 +2092,22 @@ function create_each_block_2(ctx) {
+@@ -2067,22 +2252,22 @@ function create_each_block_2(ctx) {
  	};
  }
  
 -// (75:10) {#if showWeekNums}
-+// (79:10) {#if showWeekNums}
++// (81:10) {#if showWeekNums}
  function create_if_block(ctx) {
  	let weeknum;
  	let current;
  
  	const weeknum_spread_levels = [
 -		/*week*/ ctx[18],
-+		/*week*/ ctx[20],
++		/*week*/ ctx[21],
  		{
 -			metadata: getWeeklyMetadata(/*sources*/ ctx[8], /*week*/ ctx[18].days[0], /*today*/ ctx[10])
-+			metadata: getWeeklyMetadata(/*sources*/ ctx[10], /*week*/ ctx[20].days[0], /*today*/ ctx[12])
++			metadata: getWeeklyMetadata(/*sources*/ ctx[11], /*week*/ ctx[21].days[0], /*today*/ ctx[13])
  		},
  		{ onClick: /*onClickWeek*/ ctx[7] },
  		{
@@ -941,23 +1637,23 @@ index d5260eb..f14e1a2 100644
  		},
  		{ onHover: /*onHoverWeek*/ ctx[3] },
 -		{ selectedId: /*selectedId*/ ctx[9] }
-+		{ selectedId: /*selectedId*/ ctx[11] }
++		{ selectedId: /*selectedId*/ ctx[12] }
  	];
  
  	let weeknum_props = {};
-@@ -2102,18 +2127,18 @@ function create_if_block(ctx) {
+@@ -2102,18 +2287,18 @@ function create_if_block(ctx) {
  			current = true;
  		},
  		p(ctx, dirty) {
 -			const weeknum_changes = (dirty & /*month, getWeeklyMetadata, sources, today, onClickWeek, onContextMenuWeek, onHoverWeek, selectedId*/ 18344)
-+			const weeknum_changes = (dirty[0] & /*month, sources, today, onClickWeek, onContextMenuWeek, onHoverWeek, selectedId*/ 72872)
++			const weeknum_changes = (dirty[0] & /*month, sources, today, onClickWeek, onContextMenuWeek, onHoverWeek, selectedId*/ 145576)
  			? get_spread_update(weeknum_spread_levels, [
 -					dirty & /*month*/ 16384 && get_spread_object(/*week*/ ctx[18]),
 -					dirty & /*getWeeklyMetadata, sources, month, today*/ 17664 && {
 -						metadata: getWeeklyMetadata(/*sources*/ ctx[8], /*week*/ ctx[18].days[0], /*today*/ ctx[10])
-+					dirty[0] & /*month*/ 65536 && get_spread_object(/*week*/ ctx[20]),
-+					dirty[0] & /*sources, month, today*/ 70656 && {
-+						metadata: getWeeklyMetadata(/*sources*/ ctx[10], /*week*/ ctx[20].days[0], /*today*/ ctx[12])
++					dirty[0] & /*month*/ 131072 && get_spread_object(/*week*/ ctx[21]),
++					dirty[0] & /*sources, month, today*/ 141312 && {
++						metadata: getWeeklyMetadata(/*sources*/ ctx[11], /*week*/ ctx[21].days[0], /*today*/ ctx[13])
  					},
 -					dirty & /*onClickWeek*/ 128 && { onClick: /*onClickWeek*/ ctx[7] },
 -					dirty & /*onContextMenuWeek*/ 32 && {
@@ -968,39 +1664,39 @@ index d5260eb..f14e1a2 100644
 -					dirty & /*onHoverWeek*/ 8 && { onHover: /*onHoverWeek*/ ctx[3] },
 -					dirty & /*selectedId*/ 512 && { selectedId: /*selectedId*/ ctx[9] }
 +					dirty[0] & /*onHoverWeek*/ 8 && { onHover: /*onHoverWeek*/ ctx[3] },
-+					dirty[0] & /*selectedId*/ 2048 && { selectedId: /*selectedId*/ ctx[11] }
++					dirty[0] & /*selectedId*/ 4096 && { selectedId: /*selectedId*/ ctx[12] }
  				])
  			: {};
  
-@@ -2134,7 +2159,7 @@ function create_if_block(ctx) {
+@@ -2134,7 +2319,7 @@ function create_if_block(ctx) {
  	};
  }
  
 -// (85:10) {#each week.days as day (day.format())}
-+// (89:10) {#each week.days as day (day.format())}
++// (91:10) {#each week.days as day (day.format())}
  function create_each_block_1(key_1, ctx) {
  	let first;
  	let day;
-@@ -2142,14 +2167,14 @@ function create_each_block_1(key_1, ctx) {
+@@ -2142,14 +2327,14 @@ function create_each_block_1(key_1, ctx) {
  
  	day = new Day({
  			props: {
 -				date: /*day*/ ctx[21],
 -				today: /*today*/ ctx[10],
-+				date: /*day*/ ctx[23],
-+				today: /*today*/ ctx[12],
++				date: /*day*/ ctx[24],
++				today: /*today*/ ctx[13],
  				displayedMonth: /*displayedMonth*/ ctx[0],
  				onClick: /*onClickDay*/ ctx[6],
  				onContextMenu: /*onContextMenuDay*/ ctx[4],
  				onHover: /*onHoverDay*/ ctx[2],
 -				metadata: getDailyMetadata(/*sources*/ ctx[8], /*day*/ ctx[21], /*today*/ ctx[10]),
 -				selectedId: /*selectedId*/ ctx[9]
-+				metadata: getDailyMetadata(/*sources*/ ctx[10], /*day*/ ctx[23], /*today*/ ctx[12]),
-+				selectedId: /*selectedId*/ ctx[11]
++				metadata: getDailyMetadata(/*sources*/ ctx[11], /*day*/ ctx[24], /*today*/ ctx[13]),
++				selectedId: /*selectedId*/ ctx[12]
  			}
  		});
  
-@@ -2169,14 +2194,14 @@ function create_each_block_1(key_1, ctx) {
+@@ -2169,14 +2354,14 @@ function create_each_block_1(key_1, ctx) {
  		p(new_ctx, dirty) {
  			ctx = new_ctx;
  			const day_changes = {};
@@ -1012,38 +1708,38 @@ index d5260eb..f14e1a2 100644
 -			if (dirty & /*onHoverDay*/ 4) day_changes.onHover = /*onHoverDay*/ ctx[2];
 -			if (dirty & /*sources, month, today*/ 17664) day_changes.metadata = getDailyMetadata(/*sources*/ ctx[8], /*day*/ ctx[21], /*today*/ ctx[10]);
 -			if (dirty & /*selectedId*/ 512) day_changes.selectedId = /*selectedId*/ ctx[9];
-+			if (dirty[0] & /*month*/ 65536) day_changes.date = /*day*/ ctx[23];
-+			if (dirty[0] & /*today*/ 4096) day_changes.today = /*today*/ ctx[12];
++			if (dirty[0] & /*month*/ 131072) day_changes.date = /*day*/ ctx[24];
++			if (dirty[0] & /*today*/ 8192) day_changes.today = /*today*/ ctx[13];
 +			if (dirty[0] & /*displayedMonth*/ 1) day_changes.displayedMonth = /*displayedMonth*/ ctx[0];
 +			if (dirty[0] & /*onClickDay*/ 64) day_changes.onClick = /*onClickDay*/ ctx[6];
 +			if (dirty[0] & /*onContextMenuDay*/ 16) day_changes.onContextMenu = /*onContextMenuDay*/ ctx[4];
 +			if (dirty[0] & /*onHoverDay*/ 4) day_changes.onHover = /*onHoverDay*/ ctx[2];
-+			if (dirty[0] & /*sources, month, today*/ 70656) day_changes.metadata = getDailyMetadata(/*sources*/ ctx[10], /*day*/ ctx[23], /*today*/ ctx[12]);
-+			if (dirty[0] & /*selectedId*/ 2048) day_changes.selectedId = /*selectedId*/ ctx[11];
++			if (dirty[0] & /*sources, month, today*/ 141312) day_changes.metadata = getDailyMetadata(/*sources*/ ctx[11], /*day*/ ctx[24], /*today*/ ctx[13]);
++			if (dirty[0] & /*selectedId*/ 4096) day_changes.selectedId = /*selectedId*/ ctx[12];
  			day.$set(day_changes);
  		},
  		i(local) {
-@@ -2195,7 +2220,7 @@ function create_each_block_1(key_1, ctx) {
+@@ -2195,7 +2380,7 @@ function create_each_block_1(key_1, ctx) {
  	};
  }
  
 -// (73:6) {#each month as week (week.weekNum)}
-+// (77:6) {#each month as week (week.weekNum)}
++// (79:6) {#each month as week (week.weekNum)}
  function create_each_block(key_1, ctx) {
  	let tr;
  	let t0;
-@@ -2204,8 +2229,8 @@ function create_each_block(key_1, ctx) {
+@@ -2204,8 +2389,8 @@ function create_each_block(key_1, ctx) {
  	let t1;
  	let current;
  	let if_block = /*showWeekNums*/ ctx[1] && create_if_block(ctx);
 -	let each_value_1 = /*week*/ ctx[18].days;
 -	const get_key = ctx => /*day*/ ctx[21].format();
-+	let each_value_1 = /*week*/ ctx[20].days;
-+	const get_key = ctx => /*day*/ ctx[23].format();
++	let each_value_1 = /*week*/ ctx[21].days;
++	const get_key = ctx => /*day*/ ctx[24].format();
  
  	for (let i = 0; i < each_value_1.length; i += 1) {
  		let child_ctx = get_each_context_1(ctx, each_value_1, i);
-@@ -2247,7 +2272,7 @@ function create_each_block(key_1, ctx) {
+@@ -2247,7 +2432,7 @@ function create_each_block(key_1, ctx) {
  				if (if_block) {
  					if_block.p(ctx, dirty);
  
@@ -1052,47 +1748,48 @@ index d5260eb..f14e1a2 100644
  						transition_in(if_block, 1);
  					}
  				} else {
-@@ -2266,8 +2291,8 @@ function create_each_block(key_1, ctx) {
+@@ -2266,8 +2451,8 @@ function create_each_block(key_1, ctx) {
  				check_outros();
  			}
  
 -			if (dirty & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, getDailyMetadata, sources, selectedId*/ 18261) {
 -				each_value_1 = /*week*/ ctx[18].days;
-+			if (dirty[0] & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, sources, selectedId*/ 72789) {
-+				each_value_1 = /*week*/ ctx[20].days;
++			if (dirty[0] & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, sources, selectedId*/ 145493) {
++				each_value_1 = /*week*/ ctx[21].days;
  				group_outros();
  				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value_1, each_1_lookup, tr, outro_and_destroy_block, create_each_block_1, t1, get_each_context_1);
  				check_outros();
-@@ -2322,16 +2347,18 @@ function create_fragment(ctx) {
+@@ -2322,16 +2507,19 @@ function create_fragment(ctx) {
  
  	nav = new Nav({
  			props: {
 -				today: /*today*/ ctx[10],
-+				today: /*today*/ ctx[12],
++				today: /*today*/ ctx[13],
  				displayedMonth: /*displayedMonth*/ ctx[0],
 -				incrementDisplayedMonth: /*incrementDisplayedMonth*/ ctx[11],
 -				decrementDisplayedMonth: /*decrementDisplayedMonth*/ ctx[12],
 -				resetDisplayedMonth: /*resetDisplayedMonth*/ ctx[13]
-+				incrementDisplayedMonth: /*incrementDisplayedMonth*/ ctx[13],
-+				decrementDisplayedMonth: /*decrementDisplayedMonth*/ ctx[14],
++				incrementDisplayedMonth: /*incrementDisplayedMonth*/ ctx[14],
++				decrementDisplayedMonth: /*decrementDisplayedMonth*/ ctx[15],
 +				onClickMonth: /*onClickMonth*/ ctx[8],
 +				onClickYear: /*onClickYear*/ ctx[9],
-+				resetDisplayedMonth: /*resetDisplayedMonth*/ ctx[15]
++				onClickQuarter: /*onClickQuarter*/ ctx[10],
++				resetDisplayedMonth: /*resetDisplayedMonth*/ ctx[16]
  			}
  		});
  
  	let if_block0 = /*showWeekNums*/ ctx[1] && create_if_block_2();
 -	let each_value_3 = /*month*/ ctx[14][1].days;
-+	let each_value_3 = /*month*/ ctx[16][1].days;
++	let each_value_3 = /*month*/ ctx[17][1].days;
  	let each_blocks_2 = [];
  
  	for (let i = 0; i < each_value_3.length; i += 1) {
-@@ -2339,15 +2366,15 @@ function create_fragment(ctx) {
+@@ -2339,15 +2527,15 @@ function create_fragment(ctx) {
  	}
  
  	let if_block1 = /*showWeekNums*/ ctx[1] && create_if_block_1();
 -	let each_value_2 = /*daysOfWeek*/ ctx[15];
-+	let each_value_2 = /*daysOfWeek*/ ctx[17];
++	let each_value_2 = /*daysOfWeek*/ ctx[18];
  	let each_blocks_1 = [];
  
  	for (let i = 0; i < each_value_2.length; i += 1) {
@@ -1101,21 +1798,21 @@ index d5260eb..f14e1a2 100644
  
 -	let each_value = /*month*/ ctx[14];
 -	const get_key = ctx => /*week*/ ctx[18].weekNum;
-+	let each_value = /*month*/ ctx[16];
-+	const get_key = ctx => /*week*/ ctx[20].weekNum;
++	let each_value = /*month*/ ctx[17];
++	const get_key = ctx => /*week*/ ctx[21].weekNum;
  
  	for (let i = 0; i < each_value.length; i += 1) {
  		let child_ctx = get_each_context(ctx, each_value, i);
-@@ -2389,7 +2416,7 @@ function create_fragment(ctx) {
+@@ -2389,7 +2577,7 @@ function create_fragment(ctx) {
  			attr(table, "class", "calendar svelte-pcimu8");
  			attr(div, "id", "calendar-container");
  			attr(div, "class", "container svelte-pcimu8");
 -			toggle_class(div, "is-mobile", /*isMobile*/ ctx[16]);
-+			toggle_class(div, "is-mobile", /*isMobile*/ ctx[18]);
++			toggle_class(div, "is-mobile", /*isMobile*/ ctx[19]);
  		},
  		m(target, anchor) {
  			insert(target, div, anchor);
-@@ -2423,10 +2450,12 @@ function create_fragment(ctx) {
+@@ -2423,10 +2611,13 @@ function create_fragment(ctx) {
  
  			current = true;
  		},
@@ -1124,65 +1821,67 @@ index d5260eb..f14e1a2 100644
  			const nav_changes = {};
 -			if (dirty & /*today*/ 1024) nav_changes.today = /*today*/ ctx[10];
 -			if (dirty & /*displayedMonth*/ 1) nav_changes.displayedMonth = /*displayedMonth*/ ctx[0];
-+			if (dirty[0] & /*today*/ 4096) nav_changes.today = /*today*/ ctx[12];
++			if (dirty[0] & /*today*/ 8192) nav_changes.today = /*today*/ ctx[13];
 +			if (dirty[0] & /*displayedMonth*/ 1) nav_changes.displayedMonth = /*displayedMonth*/ ctx[0];
 +			if (dirty[0] & /*onClickMonth*/ 256) nav_changes.onClickMonth = /*onClickMonth*/ ctx[8];
 +			if (dirty[0] & /*onClickYear*/ 512) nav_changes.onClickYear = /*onClickYear*/ ctx[9];
++			if (dirty[0] & /*onClickQuarter*/ 1024) nav_changes.onClickQuarter = /*onClickQuarter*/ ctx[10];
  			nav.$set(nav_changes);
  
  			if (/*showWeekNums*/ ctx[1]) {
-@@ -2440,8 +2469,8 @@ function create_fragment(ctx) {
+@@ -2440,8 +2631,8 @@ function create_fragment(ctx) {
  				if_block0 = null;
  			}
  
 -			if (dirty & /*isWeekend, month*/ 16384) {
 -				each_value_3 = /*month*/ ctx[14][1].days;
-+			if (dirty[0] & /*month*/ 65536) {
-+				each_value_3 = /*month*/ ctx[16][1].days;
++			if (dirty[0] & /*month*/ 131072) {
++				each_value_3 = /*month*/ ctx[17][1].days;
  				let i;
  
  				for (i = 0; i < each_value_3.length; i += 1) {
-@@ -2474,8 +2503,8 @@ function create_fragment(ctx) {
+@@ -2474,8 +2665,8 @@ function create_fragment(ctx) {
  				if_block1 = null;
  			}
  
 -			if (dirty & /*daysOfWeek*/ 32768) {
 -				each_value_2 = /*daysOfWeek*/ ctx[15];
-+			if (dirty[0] & /*daysOfWeek*/ 131072) {
-+				each_value_2 = /*daysOfWeek*/ ctx[17];
++			if (dirty[0] & /*daysOfWeek*/ 262144) {
++				each_value_2 = /*daysOfWeek*/ ctx[18];
  				let i;
  
  				for (i = 0; i < each_value_2.length; i += 1) {
-@@ -2497,8 +2526,8 @@ function create_fragment(ctx) {
+@@ -2497,8 +2688,8 @@ function create_fragment(ctx) {
  				each_blocks_1.length = each_value_2.length;
  			}
  
 -			if (dirty & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, getDailyMetadata, sources, selectedId, getWeeklyMetadata, onClickWeek, onContextMenuWeek, onHoverWeek, showWeekNums*/ 18431) {
 -				each_value = /*month*/ ctx[14];
-+			if (dirty[0] & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, sources, selectedId, onClickWeek, onContextMenuWeek, onHoverWeek, showWeekNums*/ 72959) {
-+				each_value = /*month*/ ctx[16];
++			if (dirty[0] & /*month, today, displayedMonth, onClickDay, onContextMenuDay, onHoverDay, sources, selectedId, onClickWeek, onContextMenuWeek, onHoverWeek, showWeekNums*/ 145663) {
++				each_value = /*month*/ ctx[17];
  				group_outros();
  				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each2_lookup, tbody, outro_and_destroy_block, create_each_block, null, get_each_context);
  				check_outros();
-@@ -2549,6 +2578,8 @@ function instance($$self, $$props, $$invalidate) {
+@@ -2549,6 +2740,9 @@ function instance($$self, $$props, $$invalidate) {
  	let { onContextMenuWeek } = $$props;
  	let { onClickDay } = $$props;
  	let { onClickWeek } = $$props;
 +	let { onClickMonth } = $$props;
 +	let { onClickYear } = $$props;
++	let { onClickQuarter } = $$props;
  	let { sources = [] } = $$props;
  	let { selectedId } = $$props;
  	let { today = window.moment() } = $$props;
-@@ -2572,7 +2603,7 @@ function instance($$self, $$props, $$invalidate) {
+@@ -2572,7 +2766,7 @@ function instance($$self, $$props, $$invalidate) {
  	}
  
  	$$self.$$set = $$props => {
 -		if ("localeData" in $$props) $$invalidate(17, localeData = $$props.localeData);
-+		if ("localeData" in $$props) $$invalidate(19, localeData = $$props.localeData);
++		if ("localeData" in $$props) $$invalidate(20, localeData = $$props.localeData);
  		if ("showWeekNums" in $$props) $$invalidate(1, showWeekNums = $$props.showWeekNums);
  		if ("onHoverDay" in $$props) $$invalidate(2, onHoverDay = $$props.onHoverDay);
  		if ("onHoverWeek" in $$props) $$invalidate(3, onHoverWeek = $$props.onHoverWeek);
-@@ -2580,19 +2611,21 @@ function instance($$self, $$props, $$invalidate) {
+@@ -2580,19 +2774,22 @@ function instance($$self, $$props, $$invalidate) {
  		if ("onContextMenuWeek" in $$props) $$invalidate(5, onContextMenuWeek = $$props.onContextMenuWeek);
  		if ("onClickDay" in $$props) $$invalidate(6, onClickDay = $$props.onClickDay);
  		if ("onClickWeek" in $$props) $$invalidate(7, onClickWeek = $$props.onClickWeek);
@@ -1191,36 +1890,38 @@ index d5260eb..f14e1a2 100644
 -		if ("today" in $$props) $$invalidate(10, today = $$props.today);
 +		if ("onClickMonth" in $$props) $$invalidate(8, onClickMonth = $$props.onClickMonth);
 +		if ("onClickYear" in $$props) $$invalidate(9, onClickYear = $$props.onClickYear);
-+		if ("sources" in $$props) $$invalidate(10, sources = $$props.sources);
-+		if ("selectedId" in $$props) $$invalidate(11, selectedId = $$props.selectedId);
-+		if ("today" in $$props) $$invalidate(12, today = $$props.today);
++		if ("onClickQuarter" in $$props) $$invalidate(10, onClickQuarter = $$props.onClickQuarter);
++		if ("sources" in $$props) $$invalidate(11, sources = $$props.sources);
++		if ("selectedId" in $$props) $$invalidate(12, selectedId = $$props.selectedId);
++		if ("today" in $$props) $$invalidate(13, today = $$props.today);
  		if ("displayedMonth" in $$props) $$invalidate(0, displayedMonth = $$props.displayedMonth);
  	};
  
  	$$self.$$.update = () => {
 -		if ($$self.$$.dirty & /*displayedMonth, localeData*/ 131073) {
 -			$$invalidate(14, month = getMonth(displayedMonth, localeData));
-+		if ($$self.$$.dirty[0] & /*displayedMonth, localeData*/ 524289) {
-+			$$invalidate(16, month = getMonth(displayedMonth, localeData));
++		if ($$self.$$.dirty[0] & /*displayedMonth, localeData*/ 1048577) {
++			$$invalidate(17, month = getMonth(displayedMonth, localeData));
  		}
  
 -		if ($$self.$$.dirty & /*today, localeData*/ 132096) {
 -			$$invalidate(15, daysOfWeek = getDaysOfWeek(today, localeData));
-+		if ($$self.$$.dirty[0] & /*today, localeData*/ 528384) {
-+			$$invalidate(17, daysOfWeek = getDaysOfWeek(today, localeData));
++		if ($$self.$$.dirty[0] & /*today, localeData*/ 1056768) {
++			$$invalidate(18, daysOfWeek = getDaysOfWeek(today, localeData));
  		}
  	};
  
-@@ -2605,6 +2638,8 @@ function instance($$self, $$props, $$invalidate) {
+@@ -2605,6 +2802,9 @@ function instance($$self, $$props, $$invalidate) {
  		onContextMenuWeek,
  		onClickDay,
  		onClickWeek,
 +		onClickMonth,
 +		onClickYear,
++		onClickQuarter,
  		sources,
  		selectedId,
  		today,
-@@ -2623,35 +2658,45 @@ class Calendar extends SvelteComponent {
+@@ -2623,35 +2823,46 @@ class Calendar extends SvelteComponent {
  		super();
  		if (!document.getElementById("svelte-pcimu8-style")) add_css();
  
@@ -1248,7 +1949,7 @@ index d5260eb..f14e1a2 100644
 +			create_fragment,
 +			not_equal,
 +			{
-+				localeData: 19,
++				localeData: 20,
 +				showWeekNums: 1,
 +				onHoverDay: 2,
 +				onHoverWeek: 3,
@@ -1258,13 +1959,14 @@ index d5260eb..f14e1a2 100644
 +				onClickWeek: 7,
 +				onClickMonth: 8,
 +				onClickYear: 9,
-+				sources: 10,
-+				selectedId: 11,
-+				today: 12,
++				onClickQuarter: 10,
++				sources: 11,
++				selectedId: 12,
++				today: 13,
 +				displayedMonth: 0,
-+				incrementDisplayedMonth: 13,
-+				decrementDisplayedMonth: 14,
-+				resetDisplayedMonth: 15
++				incrementDisplayedMonth: 14,
++				decrementDisplayedMonth: 15,
++				resetDisplayedMonth: 16
 +			},
 +			[-1, -1]
 +		);
@@ -1272,17 +1974,17 @@ index d5260eb..f14e1a2 100644
  
  	get incrementDisplayedMonth() {
 -		return this.$$.ctx[11];
-+		return this.$$.ctx[13];
++		return this.$$.ctx[14];
  	}
  
  	get decrementDisplayedMonth() {
 -		return this.$$.ctx[12];
-+		return this.$$.ctx[14];
++		return this.$$.ctx[15];
  	}
  
  	get resetDisplayedMonth() {
 -		return this.$$.ctx[13];
-+		return this.$$.ctx[15];
++		return this.$$.ctx[16];
  	}
  }
  
@@ -8709,10 +9411,10 @@ index 0000000..1a7bb1a
 +  }
 +}
 diff --git a/node_modules/obsidian-calendar-ui/src/components/Calendar.svelte b/node_modules/obsidian-calendar-ui/src/components/Calendar.svelte
-index 3b2ac01..32b7974 100644
+index 3b2ac01..3550007 100644
 --- a/node_modules/obsidian-calendar-ui/src/components/Calendar.svelte
 +++ b/node_modules/obsidian-calendar-ui/src/components/Calendar.svelte
-@@ -20,18 +20,19 @@
+@@ -20,18 +20,20 @@
    export let onHoverDay: (
      date: Moment,
      targetEl: EventTarget,
@@ -8732,10 +9434,11 @@ index 3b2ac01..32b7974 100644
 -
 +  export let onClickMonth: (date: Moment, isMetaPressed: boolean) => boolean;
 +  export let onClickYear: (date: Moment, isMetaPressed: boolean) => boolean;
++  export let onClickQuarter: (date: Moment, isMetaPressed: boolean) => boolean;
    // External sources (All optional)
    export let sources: ICalendarSource[] = [];
    export let selectedId: string;
-@@ -65,11 +66,13 @@
+@@ -65,11 +67,14 @@
  
  <div id="calendar-container" class="container" class:is-mobile="{isMobile}">
    <Nav
@@ -8750,11 +9453,12 @@ index 3b2ac01..32b7974 100644
 +    {decrementDisplayedMonth}
 +    {onClickMonth}
 +    {onClickYear}
++    {onClickQuarter}
 +    {resetDisplayedMonth}
    />
    <table class="calendar">
      <colgroup>
-@@ -100,19 +103,19 @@
+@@ -100,19 +105,19 @@
                onClick="{onClickWeek}"
                onContextMenu="{onContextMenuWeek}"
                onHover="{onHoverWeek}"
@@ -8779,40 +9483,154 @@ index 3b2ac01..32b7974 100644
            {/each}
          </tr>
 diff --git a/node_modules/obsidian-calendar-ui/src/components/Nav.svelte b/node_modules/obsidian-calendar-ui/src/components/Nav.svelte
-index c0b8fbb..de4331a 100644
+index c0b8fbb..6768bcd 100644
 --- a/node_modules/obsidian-calendar-ui/src/components/Nav.svelte
 +++ b/node_modules/obsidian-calendar-ui/src/components/Nav.svelte
-@@ -9,6 +9,10 @@
+@@ -1,27 +1,66 @@
+ <script lang="ts">
+   import type { Moment } from "moment";
+-
+   import Arrow from "./Arrow.svelte";
+-
+   export let displayedMonth: Moment;
+   export let today: Moment;
+-
    export let resetDisplayedMonth: () => void;
    export let incrementDisplayedMonth: () => void;
    export let decrementDisplayedMonth: () => void;
+-
 +  export let onClickDay: (date: Moment, isMetaPressed: boolean) => boolean;
 +  export let onClickWeek: (date: Moment, isMetaPressed: boolean) => boolean;
 +  export let onClickMonth: (date: Moment, isMetaPressed: boolean) => boolean;
 +  export let onClickYear: (date: Moment, isMetaPressed: boolean) => boolean;
- 
++  export let onClickQuarter: (date: Moment, isMetaPressed: boolean) => boolean;
    // Get the word 'Today' but localized to the current language
    const todayDisplayStr = today.calendar().split(/\d|\s/)[0];
-@@ -18,9 +22,19 @@
+-
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   let isMobile = (window.app as any).isMobile;
++
++  // Function to determine the current quarter
++  function getCurrentQuarter(month: number): number {
++    return Math.floor(month / 3) + 1;
++  }
++  // Function to get the start of a quarter
++  function getStartOfQuarter(year: number, quarter: number): Moment {
++    const startMonth = (quarter - 1) * 3; // Calculate the starting month of the quarter
++    return displayedMonth.clone().year(year).month(startMonth).startOf("month");
++  }
++  $: currentQuarter = getCurrentQuarter(displayedMonth.month());
  </script>
  
  <div class="nav" class:is-mobile="{isMobile}">
 -  <h3 class="title" on:click="{resetDisplayedMonth}">
 -    <span class="month">{displayedMonth.format("MMM")}</span>
 -    <span class="year">{displayedMonth.format("YYYY")}</span>
-+  <h3 class="title">
-+    <span
-+      class="month"
-+      on:click="{(event) => {
-+        onClickMonth(displayedMonth, event.metaKey);
-+      }}">{displayedMonth.format("MMM")}</span
-+    >
-+    <span
-+      class="year"
-+      on:click="{(event) => {
-+        onClickYear(displayedMonth, event.metaKey);
-+      }}">{displayedMonth.format("YYYY")}</span
-+    >
-   </h3>
+-  </h3>
++  <div class="title-container">
++    <h3 class="title">
++      <span
++        class="month"
++        on:click="{(event) => {
++          onClickMonth(displayedMonth, event.metaKey);
++        }}">{displayedMonth.format("MMM")}</span
++      >
++      <span
++        class="year"
++        on:click="{(event) => {
++          onClickYear(displayedMonth, event.metaKey);
++        }}">{displayedMonth.format("YYYY")}</span
++      >
++    </h3>
++    <div class="quarters">
++      {#each [1, 2, 3, 4] as quarter, index}
++        <span
++          class="quarter"
++          class:active="{quarter === currentQuarter}"
++          on:click="{(event) =>
++            onClickQuarter(
++              getStartOfQuarter(displayedMonth.year(), quarter),
++              event.metaKey,
++            )}">Q{quarter}</span
++        >
++        {#if index < 3}
++          <span class="divider">|</span>
++        {/if}
++      {/each}
++    </div>
++  </div>
    <div class="right-nav">
      <Arrow
+       direction="left"
+@@ -47,36 +86,56 @@
+     padding: 0 8px;
+     width: 100%;
+   }
+-
+   .nav.is-mobile {
+     padding: 0;
+   }
+-
++  .title-container {
++    display: flex;
++    flex-direction: column;
++    align-items: center;
++  }
+   .title {
+     color: var(--color-text-title);
+     font-size: 1.5em;
+     margin: 0;
+   }
+-
+   .is-mobile .title {
+     font-size: 1.3em;
+   }
+-
+   .month {
+     font-weight: 500;
+     text-transform: capitalize;
+   }
+-
+   .year {
+     color: var(--interactive-accent);
+   }
+-
++  .quarters {
++    display: flex;
++    justify-content: center;
++    align-items: center;
++    margin-top: 4px;
++    padding-left: 2px;
++    padding-right: 2px;
++  }
++  .quarter {
++    font-size: 0.6em;
++    color: var(--text-muted);
++    margin: 0 4px;
++  }
++  .quarter.active {
++    color: var(--interactive-accent);
++    font-weight: bold;
++  }
++  .divider {
++    font-size: 0.3em;
++    color: var(--text-muted);
++    margin: 0 4px;
++  }
+   .right-nav {
+     display: flex;
+     justify-content: center;
+     margin-left: auto;
+   }
+-
+   .reset-button {
+     cursor: pointer;
+     border-radius: 4px;
+@@ -88,7 +147,6 @@
+     padding: 0px 4px;
+     text-transform: uppercase;
+   }
+-
+   .is-mobile .reset-button {
+     display: none;
+   }
