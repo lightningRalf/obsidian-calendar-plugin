@@ -10,7 +10,7 @@
   import { onDestroy } from "svelte";
 
   import type { ISettings } from "src/settings";
-  import { activeFile, dailyNotes, monthlyNotes, settings, weeklyNotes, yearlyNotes } from "./stores";
+  import { activeFile, dailyNotes, monthlyNotes, quarterlyNotes, settings, weeklyNotes, yearlyNotes } from "./stores";
 
   let today: Moment;
 
@@ -24,6 +24,7 @@
   export let onClickWeek: (date: Moment, isMetaPressed: boolean) => boolean;
   export let onClickMonth: (date: Moment, isMetaPressed: boolean) => boolean;
   export let onClickYear: (date: Moment, isMetaPressed: boolean) => boolean;
+  export let onClickQuarter: (date: Moment, isMetaPressed: boolean) => boolean;
  
   export let onContextMenuDay: (date: Moment, event: MouseEvent) => boolean;
   export let onContextMenuWeek: (date: Moment, event: MouseEvent) => boolean;
@@ -38,6 +39,7 @@
     weeklyNotes.reindex();
     monthlyNotes.reindex();
     yearlyNotes.reindex();
+    quarterlyNotes.reindex();
     return window.moment();
   }
 
@@ -69,6 +71,7 @@
   {onClickWeek}
   {onClickMonth}
   {onClickYear}
+  {onClickQuarter}
   bind:displayedMonth
   localeData={today.localeData()}
   selectedId={$activeFile}

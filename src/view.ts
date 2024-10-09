@@ -9,6 +9,8 @@ import {
   getMonthlyNoteSettings,
   getYearlyNote,
   getYearlyNoteSettings,
+  getQuarterlyNote,
+  getQuarterlyNoteSettings,
 } from "obsidian-daily-notes-interface";
 import { FileView, TFile, ItemView, WorkspaceLeaf } from "obsidian";
 import { get } from "svelte/store";
@@ -18,6 +20,7 @@ import { tryToCreateDailyNote } from "src/io/dailyNotes";
 import { tryToCreateWeeklyNote } from "src/io/weeklyNotes";
 import { tryToCreateMonthlyNote } from "src/io/monthlyNotes";
 import { tryToCreateYearlyNote } from "src/io/yearlyNotes";
+import { tryToCreateQuarterlyNote } from "src/io/quarterlyNotes";
 import type { ISettings } from "src/settings";
 
 import Calendar from "./ui/Calendar.svelte";
@@ -27,6 +30,7 @@ import {
   dailyNotes,
   weeklyNotes,
   monthlyNotes,
+  quarterlyNotes, // Added quarterlyNotes
   yearlyNotes,
   settings,
 } from "./ui/stores";
@@ -48,6 +52,7 @@ export default class CalendarView extends ItemView {
     this.openOrCreateWeeklyNote = this.openOrCreateWeeklyNote.bind(this);
     this.openOrCreateMonthlyNote = this.openOrCreateMonthlyNote.bind(this);
     this.openOrCreateYearlyNote = this.openOrCreateYearlyNote.bind(this);
+    this.openOrCreateQuarterlyNote = this.openOrCreateQuarterlyNote.bind(this); // Added binding
 
     this.onNoteSettingsUpdate = this.onNoteSettingsUpdate.bind(this);
     this.onFileCreated = this.onFileCreated.bind(this);
@@ -59,11 +64,13 @@ export default class CalendarView extends ItemView {
     this.onHoverWeek = this.onHoverWeek.bind(this);
     this.onHoverMonth = this.onHoverMonth.bind(this);
     this.onHoverYear = this.onHoverYear.bind(this);
+    this.onHoverQuarter = this.onHoverQuarter.bind(this); // Added binding
 
     this.onContextMenuDay = this.onContextMenuDay.bind(this);
     this.onContextMenuWeek = this.onContextMenuWeek.bind(this);
     this.onContextMenuMonth = this.onContextMenuMonth.bind(this);
     this.onContextMenuYear = this.onContextMenuYear.bind(this);
+    this.onContextMenuQuarter = this.onContextMenuQuarter.bind(this); // Added binding
 
     this.registerEvent(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -126,14 +133,17 @@ export default class CalendarView extends ItemView {
         onClickWeek: this.openOrCreateWeeklyNote,
         onClickMonth: this.openOrCreateMonthlyNote,
         onClickYear: this.openOrCreateYearlyNote,
+        onClickQuarter: this.openOrCreateQuarterlyNote,
         onHoverDay: this.onHoverDay,
         onHoverWeek: this.onHoverWeek,
         onHoverMonth: this.onHoverMonth,
         onHoverYear: this.onHoverYear,
+        onHoverQuarter: this.onHoverQuarter,
         onContextMenuDay: this.onContextMenuDay,
         onContextMenuWeek: this.onContextMenuWeek,
         onContextMenuMonth: this.onContextMenuMonth,
         onContextMenuYear: this.onContextMenuYear,
+        onContextMenuQuarter: this.onContextMenuQuarter,
         sources,
       },
     });
@@ -215,10 +225,28 @@ export default class CalendarView extends ItemView {
     );
   }
 
+  onHoverQuarter(
+    date: Moment,
+    targetEl: EventTarget,
+    isMetaPressed: boolean
+  ): void {
+    if (!isMetaPressed) {
+      return;
+    }
+    const { format } = getQuarterlyNoteSettings();
+    const note = getQuarterlyNote(date, get(quarterlyNotes));
+    this.app.workspace.trigger(
+      "link-hover",
+      this,
+      targetEl,
+      date.format(format),
+      note?.path
+    );
+  }
+
   private onContextMenuDay(date: Moment, event: MouseEvent): void {
     const note = getDailyNote(date, get(dailyNotes));
     if (!note) {
-      // If no file exists for a given day, show nothing.
       return;
     }
     showFileMenu(this.app, note, {
@@ -230,7 +258,6 @@ export default class CalendarView extends ItemView {
   private onContextMenuWeek(date: Moment, event: MouseEvent): void {
     const note = getWeeklyNote(date, get(weeklyNotes));
     if (!note) {
-      // If no file exists for a given week, show nothing.
       return;
     }
     showFileMenu(this.app, note, {
@@ -242,7 +269,6 @@ export default class CalendarView extends ItemView {
   private onContextMenuMonth(date: Moment, event: MouseEvent): void {
     const note = getMonthlyNote(date, get(monthlyNotes));
     if (!note) {
-      // If no file exists for a given month, show nothing.
       return;
     }
     showFileMenu(this.app, note, {
@@ -254,7 +280,17 @@ export default class CalendarView extends ItemView {
   private onContextMenuYear(date: Moment, event: MouseEvent): void {
     const note = getYearlyNote(date, get(yearlyNotes));
     if (!note) {
-      // If no file exists for a given year, show nothing.
+      return;
+    }
+    showFileMenu(this.app, note, {
+      x: event.pageX,
+      y: event.pageY,
+    });
+  }
+
+  private onContextMenuQuarter(date: Moment, event: MouseEvent): void {
+    const note = getQuarterlyNote(date, get(quarterlyNotes));
+    if (!note) {
       return;
     }
     showFileMenu(this.app, note, {
@@ -267,6 +303,7 @@ export default class CalendarView extends ItemView {
     dailyNotes.reindex();
     weeklyNotes.reindex();
     monthlyNotes.reindex();
+    quarterlyNotes.reindex(); // Added line
     yearlyNotes.reindex();
     this.updateActiveFile();
   }
@@ -284,6 +321,11 @@ export default class CalendarView extends ItemView {
       monthlyNotes.reindex();
       this.updateActiveFile();
     }
+    if (getDateFromFile(file, "quarter")) {
+      // Added block
+      quarterlyNotes.reindex();
+      this.updateActiveFile();
+    }
     if (getDateFromFile(file, "year")) {
       yearlyNotes.reindex();
       this.updateActiveFile();
@@ -295,6 +337,7 @@ export default class CalendarView extends ItemView {
       getDateFromFile(file, "day") ||
       getDateFromFile(file, "week") ||
       getDateFromFile(file, "month") ||
+      getDateFromFile(file, "quarter") || // Added line
       getDateFromFile(file, "year");
     if (date && this.calendar) {
       this.calendar.tick();
@@ -313,6 +356,11 @@ export default class CalendarView extends ItemView {
       }
       if (getDateFromFile(file, "month")) {
         monthlyNotes.reindex();
+        this.calendar.tick();
+      }
+      if (getDateFromFile(file, "quarter")) {
+        // Added block
+        quarterlyNotes.reindex();
         this.calendar.tick();
       }
       if (getDateFromFile(file, "year")) {
@@ -347,14 +395,12 @@ export default class CalendarView extends ItemView {
     const { activeLeaf } = this.app.workspace;
 
     if (activeLeaf.view instanceof FileView) {
-      // Check to see if the active note is a daily-note
       let date = getDateFromFile(activeLeaf.view.file, "day");
       if (date) {
         this.calendar.$set({ displayedMonth: date });
         return;
       }
 
-      // Check to see if the active note is a weekly-note
       const { format: weeklyFormat } = getWeeklyNoteSettings();
       date = moment(activeLeaf.view.file.basename, weeklyFormat, true);
       if (date.isValid()) {
@@ -362,7 +408,6 @@ export default class CalendarView extends ItemView {
         return;
       }
 
-      // Check to see if the active note is a monthly-note
       const { format: monthlyFormat } = getMonthlyNoteSettings();
       date = moment(activeLeaf.view.file.basename, monthlyFormat, true);
       if (date.isValid()) {
@@ -370,7 +415,13 @@ export default class CalendarView extends ItemView {
         return;
       }
 
-      // Check to see if the active note is a yearly-note
+      const { format: quarterlyFormat } = getQuarterlyNoteSettings(); // Added block
+      date = moment(activeLeaf.view.file.basename, quarterlyFormat, true);
+      if (date.isValid()) {
+        this.calendar.$set({ displayedMonth: date });
+        return;
+      }
+
       const { format: yearlyFormat } = getYearlyNoteSettings();
       date = moment(activeLeaf.view.file.basename, yearlyFormat, true);
       if (date.isValid()) {
@@ -391,7 +442,6 @@ export default class CalendarView extends ItemView {
     const existingFile = getWeeklyNote(date, get(weeklyNotes));
 
     if (!existingFile) {
-      // File doesn't exist
       tryToCreateWeeklyNote(startOfWeek, inNewSplit, this.settings, (file) => {
         activeFile.setFile(file);
       });
@@ -414,7 +464,6 @@ export default class CalendarView extends ItemView {
     const { workspace } = this.app;
     const existingFile = getDailyNote(date, get(dailyNotes));
     if (!existingFile) {
-      // File doesn't exist
       tryToCreateDailyNote(
         date,
         inNewSplit,
@@ -426,7 +475,6 @@ export default class CalendarView extends ItemView {
       return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mode = (this.app.vault as any).getConfig("defaultViewMode");
     const leaf = inNewSplit
       ? workspace.splitActiveLeaf()
@@ -446,9 +494,39 @@ export default class CalendarView extends ItemView {
 
     const existingFile = getMonthlyNote(date, get(monthlyNotes));
     if (!existingFile) {
-      // File doesn't exist
       tryToCreateMonthlyNote(
         startOfMonth,
+        inNewSplit,
+        this.settings,
+        (file) => {
+          activeFile.setFile(file);
+        }
+      );
+      return;
+    }
+
+    const leaf = inNewSplit
+      ? workspace.splitActiveLeaf()
+      : workspace.getUnpinnedLeaf();
+    await leaf.openFile(existingFile);
+
+    activeFile.setFile(existingFile);
+    workspace.setActiveLeaf(leaf, true, true);
+  }
+
+  async openOrCreateQuarterlyNote(
+    date: Moment,
+    inNewSplit: boolean
+  ): Promise<void> {
+    const { workspace } = this.app;
+
+    const startOfQuarter = date.clone().startOf("quarter");
+
+    const existingFile = getQuarterlyNote(date, get(quarterlyNotes));
+
+    if (!existingFile) {
+      tryToCreateQuarterlyNote(
+        startOfQuarter,
         inNewSplit,
         this.settings,
         (file) => {
@@ -478,7 +556,6 @@ export default class CalendarView extends ItemView {
     const existingFile = getYearlyNote(date, get(yearlyNotes));
 
     if (!existingFile) {
-      // File doesn't exist
       tryToCreateYearlyNote(startOfYear, inNewSplit, this.settings, (file) => {
         activeFile.setFile(file);
       });
