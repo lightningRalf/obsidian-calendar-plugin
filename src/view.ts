@@ -12,11 +12,20 @@ import { get } from "svelte/store";
 import { TRIGGER_ON_OPEN, VIEW_TYPE_CALENDAR } from "src/constants";
 import { tryToCreateDailyNote } from "src/io/dailyNotes";
 import { tryToCreateWeeklyNote } from "src/io/weeklyNotes";
+import { tryToCreateMonthlyNote } from "src/io/monthlyNotes";
+import { tryToCreateYearlyNote } from "src/io/yearlyNotes";
 import type { ISettings } from "src/settings";
 
 import Calendar from "./ui/Calendar.svelte";
 import { showFileMenu } from "./ui/fileMenu";
-import { activeFile, dailyNotes, weeklyNotes, settings } from "./ui/stores";
+import {
+  activeFile,
+  dailyNotes,
+  weeklyNotes,
+  monthlyNotes,
+  yearlyNotes,
+  settings,
+} from "./ui/stores";
 import {
   customTagsSource,
   streakSource,
@@ -279,7 +288,7 @@ export default class CalendarView extends ItemView {
     await leaf.openFile(existingFile);
 
     activeFile.setFile(existingFile);
-    workspace.setActiveLeaf(leaf, true, true)
+    workspace.setActiveLeaf(leaf, true, true);
   }
 
   async openOrCreateDailyNote(
@@ -306,7 +315,7 @@ export default class CalendarView extends ItemView {
     const leaf = inNewSplit
       ? workspace.splitActiveLeaf()
       : workspace.getUnpinnedLeaf();
-    await leaf.openFile(existingFile, { active : true, mode });
+    await leaf.openFile(existingFile, { active: true, mode });
 
     activeFile.setFile(existingFile);
   }
