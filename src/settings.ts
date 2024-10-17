@@ -13,6 +13,7 @@ export interface ISettings {
   showQuarter: boolean; // Existing property
   // Weekly Note settings
   showWeeklyNote: boolean;
+  showWeeklyNoteRight: boolean;
   weeklyNoteFormat: string;
   weeklyNoteTemplate: string;
   weeklyNoteFolder: string;
@@ -37,12 +38,13 @@ export const defaultSettings = Object.freeze({
   wordsPerDot: DEFAULT_WORDS_PER_DOT,
 
   showWeeklyNote: false,
+  showWeeklyNoteRight: false,
   weeklyNoteFormat: "",
   weeklyNoteTemplate: "",
   weeklyNoteFolder: "",
 
   localeOverride: "system-default",
-  
+
   showQuarter: false, // Added default value for showQuarter
 });
 
@@ -82,7 +84,8 @@ export class CalendarSettingsTab extends PluginSettingTab {
     this.addWeekStartSetting();
     this.addConfirmCreateSetting();
     this.addShowWeeklyNoteSetting();
-    this.addShowQuarterSetting(); // Added call to addShowQuarterSetting
+    this.addShowWeeklyNoteRightSetting();
+    this.addShowQuarterSetting();
 
     if (
       this.plugin.options.showWeeklyNote &&
@@ -179,7 +182,9 @@ export class CalendarSettingsTab extends PluginSettingTab {
   addShowQuarterSetting(): void {
     new Setting(this.containerEl)
       .setName("Show Quarter")
-      .setDesc("Enable this to display the quarter of the year (Q1, Q2, Q3, Q4) in the calendar")
+      .setDesc(
+        "Enable this to display the quarter of the year (Q1, Q2, Q3, Q4) in the calendar"
+      )
       .addToggle((toggle) => {
         toggle.setValue(this.plugin.options.showQuarter);
         toggle.onChange(async (value) => {
@@ -224,6 +229,18 @@ export class CalendarSettingsTab extends PluginSettingTab {
         textfield.setValue(this.plugin.options.weeklyNoteFolder);
         textfield.onChange(async (value) => {
           this.plugin.writeOptions(() => ({ weeklyNoteFolder: value }));
+        });
+      });
+  }
+  addShowWeeklyNoteRightSetting(): void {
+    new Setting(this.containerEl)
+      .setName("Change week number side")
+      .setDesc("Enable this to show week numbers to the right of the calendar")
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.options.showWeeklyNoteRight);
+        toggle.onChange(async (value) => {
+          this.plugin.writeOptions(() => ({ showWeeklyNoteRight: value }));
+          this.display(); // show/hide weekly settings
         });
       });
   }

@@ -11,6 +11,7 @@ export function getDefaultSettings(
       wordsPerDot: 50,
       showWeeklyNote: false,
       showQuarter: true,
+      showWeeklyNoteRight: false,
       weeklyNoteFolder: "",
       weeklyNoteFormat: "",
       weeklyNoteTemplate: "",
