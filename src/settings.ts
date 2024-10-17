@@ -10,7 +10,7 @@ export interface ISettings {
   wordsPerDot: number;
   weekStart: IWeekStartOption;
   shouldConfirmBeforeCreate: boolean;
-
+  showQuarter: boolean; // Existing property
   // Weekly Note settings
   showWeeklyNote: boolean;
   weeklyNoteFormat: string;
@@ -42,6 +42,8 @@ export const defaultSettings = Object.freeze({
   weeklyNoteFolder: "",
 
   localeOverride: "system-default",
+  
+  showQuarter: false, // Added default value for showQuarter
 });
 
 export function appHasPeriodicNotesPluginLoaded(): boolean {
@@ -68,8 +70,7 @@ export class CalendarSettingsTab extends PluginSettingTab {
         });
         banner.createEl("p", {
           cls: "setting-item-description",
-          text:
-            "The calendar is best used in conjunction with either the Daily Notes plugin or the Periodic Notes plugin (available in the Community Plugins catalog).",
+          text: "The calendar is best used in conjunction with either the Daily Notes plugin or the Periodic Notes plugin (available in the Community Plugins catalog).",
         });
       });
     }
@@ -81,6 +82,7 @@ export class CalendarSettingsTab extends PluginSettingTab {
     this.addWeekStartSetting();
     this.addConfirmCreateSetting();
     this.addShowWeeklyNoteSetting();
+    this.addShowQuarterSetting(); // Added call to addShowQuarterSetting
 
     if (
       this.plugin.options.showWeeklyNote &&
@@ -91,8 +93,7 @@ export class CalendarSettingsTab extends PluginSettingTab {
       });
       this.containerEl.createEl("p", {
         cls: "setting-item-description",
-        text:
-          "Note: Weekly Note settings are moving. You are encouraged to install the 'Periodic Notes' plugin to keep the functionality in the future.",
+        text: "Note: Weekly Note settings are moving. You are encouraged to install the 'Periodic Notes' plugin to keep the functionality in the future.",
       });
       this.addWeeklyNoteFormatSetting();
       this.addWeeklyNoteTemplateSetting();
@@ -170,6 +171,20 @@ export class CalendarSettingsTab extends PluginSettingTab {
         toggle.onChange(async (value) => {
           this.plugin.writeOptions(() => ({ showWeeklyNote: value }));
           this.display(); // show/hide weekly settings
+        });
+      });
+  }
+
+  // New method to add the Show Quarter setting
+  addShowQuarterSetting(): void {
+    new Setting(this.containerEl)
+      .setName("Show Quarter")
+      .setDesc("Enable this to display the quarter of the year (Q1, Q2, Q3, Q4) in the calendar")
+      .addToggle((toggle) => {
+        toggle.setValue(this.plugin.options.showQuarter);
+        toggle.onChange(async (value) => {
+          this.plugin.writeOptions(() => ({ showQuarter: value }));
+          this.display(); // Optionally refresh the settings UI if needed
         });
       });
   }

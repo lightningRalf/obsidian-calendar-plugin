@@ -76,4 +76,5 @@
   localeData={today.localeData()}
   selectedId={$activeFile}
   showWeekNums={$settings.showWeeklyNote}
+  quarterVisible={$settings.showQuarter}
 />
