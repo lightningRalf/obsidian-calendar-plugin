@@ -303,9 +303,14 @@ export default class CalendarView extends ItemView {
     dailyNotes.reindex();
     weeklyNotes.reindex();
     monthlyNotes.reindex();
-    quarterlyNotes.reindex(); // Added line
+    quarterlyNotes.reindex();
     yearlyNotes.reindex();
     this.updateActiveFile();
+    // Force refresh of calendar display
+    if (this.calendar) {
+      this.calendar.tick();
+      this.calendar.$set({ displayedMonth: this.calendar.$$.ctx[0] });
+    }
   }
 
   private async onFileDeleted(file: TFile): Promise<void> {
@@ -353,6 +358,8 @@ export default class CalendarView extends ItemView {
       if (getDateFromFile(file, "week")) {
         weeklyNotes.reindex();
         this.calendar.tick();
+        // Force refresh of weekly notes display
+        this.calendar.$set({ displayedMonth: this.calendar.$$.ctx[0] });
       }
       if (getDateFromFile(file, "month")) {
         monthlyNotes.reindex();
