@@ -306,11 +306,6 @@ export default class CalendarView extends ItemView {
     quarterlyNotes.reindex();
     yearlyNotes.reindex();
     this.updateActiveFile();
-    // Force refresh of calendar display
-    if (this.calendar) {
-      this.calendar.tick();
-      this.calendar.$set({ displayedMonth: this.calendar.$$.ctx[0] });
-    }
   }
 
   private async onFileDeleted(file: TFile): Promise<void> {
@@ -358,8 +353,6 @@ export default class CalendarView extends ItemView {
       if (getDateFromFile(file, "week")) {
         weeklyNotes.reindex();
         this.calendar.tick();
-        // Force refresh of weekly notes display
-        this.calendar.$set({ displayedMonth: this.calendar.$$.ctx[0] });
       }
       if (getDateFromFile(file, "month")) {
         monthlyNotes.reindex();
@@ -449,9 +442,14 @@ export default class CalendarView extends ItemView {
     const existingFile = getWeeklyNote(date, get(weeklyNotes));
 
     if (!existingFile) {
-      tryToCreateWeeklyNote(startOfWeek, ctrlPressed, this.settings, (file) => {
-        activeFile.setFile(file);
-      });
+      tryToCreateWeeklyNote(
+        startOfWeek, 
+        ctrlPressed, 
+        this.settings, 
+        (weeklyNotes: TFile) => {
+         activeFile.setFile(weeklyNotes);
+        }
+      );
       return;
     }
 
@@ -507,9 +505,14 @@ export default class CalendarView extends ItemView {
     const existingFile = getMonthlyNote(date, get(monthlyNotes));
     
     if (!existingFile) {
-      tryToCreateMonthlyNote(date, ctrlPressed, this.settings, (file) => {
-        activeFile.setFile(file);
-      });
+      tryToCreateMonthlyNote(
+        date, 
+        ctrlPressed, 
+        this.settings, 
+        (monthlyNotes: TFile) => {
+          activeFile.setFile(monthlyNotes);
+        }
+      );
       return;
     }
 
@@ -535,9 +538,14 @@ export default class CalendarView extends ItemView {
     const existingFile = getQuarterlyNote(date, get(quarterlyNotes));
     
     if (!existingFile) {
-      tryToCreateQuarterlyNote(date, ctrlPressed, this.settings, (file) => {
-        activeFile.setFile(file);
-      });
+      tryToCreateQuarterlyNote(
+        date, 
+        ctrlPressed, 
+        this.settings, 
+        (quarterlyNotes: TFile) => {
+          activeFile.setFile(quarterlyNotes);
+        }
+      );
       return;
     }
 
@@ -563,9 +571,14 @@ export default class CalendarView extends ItemView {
     const existingFile = getYearlyNote(date, get(yearlyNotes));
     
     if (!existingFile) {
-      tryToCreateYearlyNote(date, ctrlPressed, this.settings, (file) => {
-        activeFile.setFile(file);
-      });
+      tryToCreateYearlyNote(
+        date, 
+        ctrlPressed, 
+        this.settings, 
+        (yearlyNotes: TFile) => {
+          activeFile.setFile(yearlyNotes);
+        }
+      );
       return;
     }
 
