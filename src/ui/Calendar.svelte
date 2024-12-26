@@ -18,16 +18,18 @@
 
   export let displayedMonth: Moment = today;
   export let sources: ICalendarSource[];
-  export let onHoverDay: (date: Moment, targetEl: EventTarget) => boolean;
-  export let onHoverWeek: (date: Moment, targetEl: EventTarget) => boolean;
-  export let onClickDay: (date: Moment, isMetaPressed: boolean) => boolean;
-  export let onClickWeek: (date: Moment, isMetaPressed: boolean) => boolean;
-  export let onClickMonth: (date: Moment, isMetaPressed: boolean) => boolean;
-  export let onClickYear: (date: Moment, isMetaPressed: boolean) => boolean;
-  export let onClickQuarter: (date: Moment, isMetaPressed: boolean) => boolean;
+  export let onHoverDay: (date: Moment, targetEl: EventTarget, isMetaPressed: boolean) => void;
+  export let onHoverWeek: (date: Moment, targetEl: EventTarget, isMetaPressed: boolean) => void;
+  export let onHoverMonth: (date: Moment, targetEl: EventTarget, isMetaPressed: boolean) => void;
+  export let onClickDay: (date: Moment, isMetaPressed: boolean) => void;
+  export let onClickWeek: (date: Moment, isMetaPressed: boolean) => void;
+  export let onClickMonth: (date: Moment, isMetaPressed: boolean) => void;
+  export let onClickYear: (date: Moment, isMetaPressed: boolean) => void;
+  export let onClickQuarter: (date: Moment, isMetaPressed: boolean) => void;
  
-  export let onContextMenuDay: (date: Moment, event: MouseEvent) => boolean;
-  export let onContextMenuWeek: (date: Moment, event: MouseEvent) => boolean;
+  export let onContextMenuDay: (date: Moment, event: MouseEvent) => void;
+  export let onContextMenuWeek: (date: Moment, event: MouseEvent) => void;
+  export let onContextMenuMonth: (date: Moment, event: MouseEvent) => void;
 
   export function tick() {
     today = window.moment();
@@ -65,8 +67,10 @@
   {today}
   {onHoverDay}
   {onHoverWeek}
+  {onHoverMonth}
   {onContextMenuDay}
   {onContextMenuWeek}
+  {onContextMenuMonth}
   {onClickDay}
   {onClickWeek}
   {onClickMonth}
