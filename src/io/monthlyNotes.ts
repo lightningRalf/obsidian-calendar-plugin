@@ -13,7 +13,7 @@ import { createConfirmationDialog } from "src/ui/modal";
  */
 export async function tryToCreateMonthlyNote(
   date: Moment,
-  inNewSplit: boolean,
+  ctrlPressed: boolean,
   settings: ISettings,
   cb?: (newFile: TFile) => void
 ): Promise<void> {
@@ -23,10 +23,16 @@ export async function tryToCreateMonthlyNote(
 
   const createFile = async () => {
     const monthlyNote = await createMonthlyNote(date);
-    const leaf = inNewSplit
-      ? workspace.splitActiveLeaf()
-      : workspace.getUnpinnedLeaf();
-
+    let leaf: WorkspaceLeaf;
+    if (ctrlPressed) {
+      if (settings.ctrlClickOpensInNewTab) {
+        leaf = workspace.getLeaf('tab');
+      } else {
+        leaf = workspace.getLeaf('split', 'vertical');
+      }
+    } else {
+      leaf = workspace.getLeaf(false);
+    }
     await leaf.openFile(monthlyNote, { active: true });
     cb?.(monthlyNote);
   };

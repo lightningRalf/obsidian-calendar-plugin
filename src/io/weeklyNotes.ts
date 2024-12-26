@@ -22,19 +22,19 @@ export async function tryToCreateWeeklyNote(
   const filename = date.format(format);
 
   const createFile = async () => {
-    const dailyNote = await createWeeklyNote(date);
+    const weeklyNote = await createWeeklyNote(date);
     let leaf: WorkspaceLeaf;
     if (ctrlPressed) {
       if (settings.ctrlClickOpensInNewTab) {
-        leaf = workspace.getLeaf("tab");
+        leaf = workspace.getLeaf('tab');
       } else {
-        leaf = workspace.getLeaf("split", "vertical");
+        leaf = workspace.getLeaf('split', 'vertical');
       }
     } else {
       leaf = workspace.getLeaf(false);
     }
-    await leaf.openFile(dailyNote, { active: true });
-    cb?.(dailyNote);
+    await leaf.openFile(weeklyNote, { active: true });
+    cb?.(weeklyNote);
   };
 
   if (settings.shouldConfirmBeforeCreate) {

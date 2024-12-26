@@ -494,88 +494,85 @@ export default class CalendarView extends ItemView {
 
   async openOrCreateMonthlyNote(
     date: Moment,
-    inNewSplit: boolean
+    ctrlPressed: boolean
   ): Promise<void> {
     const { workspace } = this.app;
-
-    const startOfMonth = date.clone().startOf("month");
-
     const existingFile = getMonthlyNote(date, get(monthlyNotes));
+    
     if (!existingFile) {
-      tryToCreateMonthlyNote(
-        startOfMonth,
-        inNewSplit,
-        this.settings,
-        (file) => {
-          activeFile.setFile(file);
-        }
-      );
-      return;
-    }
-
-    const leaf = inNewSplit
-      ? workspace.splitActiveLeaf()
-      : workspace.getUnpinnedLeaf();
-    await leaf.openFile(existingFile);
-
-    activeFile.setFile(existingFile);
-    workspace.setActiveLeaf(leaf, true, true);
-  }
-
-  async openOrCreateQuarterlyNote(
-    date: Moment,
-    inNewSplit: boolean
-  ): Promise<void> {
-    const { workspace } = this.app;
-
-    const startOfQuarter = date.clone().startOf("quarter");
-
-    const existingFile = getQuarterlyNote(date, get(quarterlyNotes));
-
-    if (!existingFile) {
-      tryToCreateQuarterlyNote(
-        startOfQuarter,
-        inNewSplit,
-        this.settings,
-        (file) => {
-          activeFile.setFile(file);
-        }
-      );
-      return;
-    }
-
-    const leaf = inNewSplit
-      ? workspace.splitActiveLeaf()
-      : workspace.getUnpinnedLeaf();
-    await leaf.openFile(existingFile);
-
-    activeFile.setFile(existingFile);
-    workspace.setActiveLeaf(leaf, true, true);
-  }
-
-  async openOrCreateYearlyNote(
-    date: Moment,
-    inNewSplit: boolean
-  ): Promise<void> {
-    const { workspace } = this.app;
-
-    const startOfYear = date.clone().startOf("year");
-
-    const existingFile = getYearlyNote(date, get(yearlyNotes));
-
-    if (!existingFile) {
-      tryToCreateYearlyNote(startOfYear, inNewSplit, this.settings, (file) => {
+      tryToCreateMonthlyNote(date, ctrlPressed, this.settings, (file) => {
         activeFile.setFile(file);
       });
       return;
     }
 
-    const leaf = inNewSplit
-      ? workspace.splitActiveLeaf()
-      : workspace.getUnpinnedLeaf();
+    let leaf: WorkspaceLeaf;
+    if (ctrlPressed) {
+      if (this.settings.ctrlClickOpensInNewTab) {
+        leaf = workspace.getLeaf('tab');
+      } else {
+        leaf = workspace.getLeaf('split', 'vertical');
+      }
+    } else {
+      leaf = workspace.getLeaf(false);
+    }
     await leaf.openFile(existingFile);
-
     activeFile.setFile(existingFile);
-    workspace.setActiveLeaf(leaf, true, true);
+  }
+
+  async openOrCreateQuarterlyNote(
+    date: Moment,
+    ctrlPressed: boolean
+  ): Promise<void> {
+    const { workspace } = this.app;
+    const existingFile = getQuarterlyNote(date, get(quarterlyNotes));
+    
+    if (!existingFile) {
+      tryToCreateQuarterlyNote(date, ctrlPressed, this.settings, (file) => {
+        activeFile.setFile(file);
+      });
+      return;
+    }
+
+    let leaf: WorkspaceLeaf;
+    if (ctrlPressed) {
+      if (this.settings.ctrlClickOpensInNewTab) {
+        leaf = workspace.getLeaf('tab');
+      } else {
+        leaf = workspace.getLeaf('split', 'vertical');
+      }
+    } else {
+      leaf = workspace.getLeaf(false);
+    }
+    await leaf.openFile(existingFile);
+    activeFile.setFile(existingFile);
+  }
+
+  async openOrCreateYearlyNote(
+    date: Moment,
+    ctrlPressed: boolean
+  ): Promise<void> {
+    const { workspace } = this.app;
+    const existingFile = getYearlyNote(date, get(yearlyNotes));
+    
+    if (!existingFile) {
+      tryToCreateYearlyNote(date, ctrlPressed, this.settings, (file) => {
+        activeFile.setFile(file);
+      });
+      return;
+    }
+
+    let leaf: WorkspaceLeaf;
+    if (ctrlPressed) {
+      if (this.settings.ctrlClickOpensInNewTab) {
+        leaf = workspace.getLeaf('tab');
+      } else {
+        leaf = workspace.getLeaf('split', 'vertical');
+      }
+    } else {
+      leaf = workspace.getLeaf(false);
+    }
+    await leaf.openFile(existingFile);
+    activeFile.setFile(existingFile);
   }
 }
