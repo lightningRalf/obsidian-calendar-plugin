@@ -344,7 +344,7 @@ export default class CalendarView extends ItemView {
     }
   }
 
-  private onFileCreated(file: TFile): void {
+  private async onFileCreated(file: TFile): Promise<void> {
     if (!this.app.workspace.layoutReady || !this.calendar) {
       return;
     }
