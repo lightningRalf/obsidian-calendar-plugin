@@ -41,7 +41,7 @@ export async function tryToCreateQuarterlyNote(
     createConfirmationDialog({
       cta: "Create",
       onAccept: createFile,
-      text: `File "${filename}" does not exist. Would you like to create it?`,
+      text: `File ${filename} does not exist. Would you like to create it?`,
       title: "New Quarterly Note",
     });
   } else {
