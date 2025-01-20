@@ -345,28 +345,43 @@ export default class CalendarView extends ItemView {
   }
 
   private onFileCreated(file: TFile): void {
-    if (this.app.workspace.layoutReady && this.calendar) {
-      if (getDateFromFile(file, "day")) {
-        dailyNotes.reindex();
-        this.calendar.tick();
-      }
-      if (getDateFromFile(file, "week")) {
-        weeklyNotes.reindex();
-        this.calendar.tick();
-      }
-      if (getDateFromFile(file, "month")) {
-        monthlyNotes.reindex();
-        this.calendar.tick();
-      }
-      if (getDateFromFile(file, "quarter")) {
-        // Added block
-        quarterlyNotes.reindex();
-        this.calendar.tick();
-      }
-      if (getDateFromFile(file, "year")) {
-        yearlyNotes.reindex();
-        this.calendar.tick();
-      }
+    if (!this.app.workspace.layoutReady || !this.calendar) {
+      return;
+    }
+
+    let shouldReindex = false;
+
+    if (getDateFromFile(file, "day")) {
+      dailyNotes.reindex();
+      shouldReindex = true;
+    }
+    if (getDateFromFile(file, "week")) {
+      weeklyNotes.reindex();
+      shouldReindex = true;
+    }
+    if (getDateFromFile(file, "month")) {
+      monthlyNotes.reindex();
+      shouldReindex = true;
+    }
+    if (getDateFromFile(file, "quarter")) {
+      quarterlyNotes.reindex();
+      shouldReindex = true;
+    }
+    if (getDateFromFile(file, "year")) {
+      yearlyNotes.reindex();
+      shouldReindex = true;
+    }
+
+    if (shouldReindex) {
+      // Force a complete refresh of all indices
+      await Promise.all([
+        dailyNotes.reindex(),
+        weeklyNotes.reindex(),
+        monthlyNotes.reindex(),
+        quarterlyNotes.reindex(),
+        yearlyNotes.reindex()
+      ]);
+      this.calendar.tick();
     }
   }
 
