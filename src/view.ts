@@ -30,7 +30,7 @@ import {
   dailyNotes,
   weeklyNotes,
   monthlyNotes,
-  quarterlyNotes, // Added quarterlyNotes
+  quarterlyNotes,
   yearlyNotes,
   settings,
 } from "./ui/stores";
@@ -322,7 +322,6 @@ export default class CalendarView extends ItemView {
       this.updateActiveFile();
     }
     if (getDateFromFile(file, "quarter")) {
-      // Added block
       quarterlyNotes.reindex();
       this.updateActiveFile();
     }
@@ -337,7 +336,7 @@ export default class CalendarView extends ItemView {
       getDateFromFile(file, "day") ||
       getDateFromFile(file, "week") ||
       getDateFromFile(file, "month") ||
-      getDateFromFile(file, "quarter") || // Added line
+      getDateFromFile(file, "quarter") ||
       getDateFromFile(file, "year");
     if (date && this.calendar) {
       this.calendar.tick();
@@ -461,8 +460,8 @@ export default class CalendarView extends ItemView {
         startOfWeek, 
         ctrlPressed, 
         this.settings, 
-        (weeklyNotes: TFile) => {
-         activeFile.setFile(weeklyNotes);
+        (weeklyNote: TFile) => {
+         activeFile.setFile(weeklyNote);
         }
       );
       return;
@@ -517,6 +516,7 @@ export default class CalendarView extends ItemView {
     ctrlPressed: boolean
   ): Promise<void> {
     const { workspace } = this.app;
+
     const existingFile = getMonthlyNote(date, get(monthlyNotes));
     
     if (!existingFile) {
@@ -524,8 +524,8 @@ export default class CalendarView extends ItemView {
         date, 
         ctrlPressed, 
         this.settings, 
-        (monthlyNotes: TFile) => {
-          activeFile.setFile(monthlyNotes);
+        (monthlyNote: TFile) => {
+          activeFile.setFile(monthlyNote);
         }
       );
       return;
@@ -542,7 +542,6 @@ export default class CalendarView extends ItemView {
       leaf = workspace.getLeaf(false);
     }
     await leaf.openFile(existingFile);
-    activeFile.setFile(existingFile);
   }
 
   async openOrCreateQuarterlyNote(
@@ -557,8 +556,8 @@ export default class CalendarView extends ItemView {
         date, 
         ctrlPressed, 
         this.settings, 
-        (quarterlyNotes: TFile) => {
-          activeFile.setFile(quarterlyNotes);
+        (quarterlyNote: TFile) => {
+          activeFile.setFile(quarterlyNote);
         }
       );
       return;
@@ -575,7 +574,6 @@ export default class CalendarView extends ItemView {
       leaf = workspace.getLeaf(false);
     }
     await leaf.openFile(existingFile);
-    activeFile.setFile(existingFile);
   }
 
   async openOrCreateYearlyNote(
@@ -608,6 +606,5 @@ export default class CalendarView extends ItemView {
       leaf = workspace.getLeaf(false);
     }
     await leaf.openFile(existingFile);
-    activeFile.setFile(existingFile);
   }
 }

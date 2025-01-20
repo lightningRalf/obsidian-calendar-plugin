@@ -1,5 +1,5 @@
 import type { Moment } from "moment";
-import type { TFile } from "obsidian";
+import type { TFile, WorkspaceLeaf } from "obsidian";
 import {
   createQuarterlyNote, // Ensure this function exists in the interface
   getQuarterlyNoteSettings,
@@ -22,23 +22,19 @@ export async function tryToCreateQuarterlyNote(
   const filename = date.format(format);
 
   const createFile = async () => {
-    try {
-      const quarterlyNote = await createQuarterlyNote(date);
-      let leaf: WorkspaceLeaf;
-      if (ctrlPressed) {
-        if (settings.ctrlClickOpensInNewTab) {
-          leaf = workspace.getLeaf('tab');
-        } else {
-          leaf = workspace.getLeaf('split', 'vertical');
-        }
+    const quarterlyNote = await createQuarterlyNote(date);
+    let leaf: WorkspaceLeaf;
+    if (ctrlPressed) {
+      if (settings.ctrlClickOpensInNewTab) {
+        leaf = workspace.getLeaf('tab');
       } else {
-        leaf = workspace.getLeaf(false);
+        leaf = workspace.getLeaf('split', 'vertical');
       }
-      await leaf.openFile(quarterlyNote, { active: true });
-      cb?.(quarterlyNote);
-    } catch (error) {
-      console.error(`Error creating quarterly note "${filename}":`, error);
+    } else {
+      leaf = workspace.getLeaf(false);
     }
+    await leaf.openFile(quarterlyNote, { active: true });
+    cb?.(quarterlyNote);
   };
 
   if (settings.shouldConfirmBeforeCreate) {

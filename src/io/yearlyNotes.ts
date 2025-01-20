@@ -1,5 +1,5 @@
 import type { Moment } from "moment";
-import type { TFile } from "obsidian";
+import type { TFile, WorkspaceLeaf } from "obsidian";
 import {
   createYearlyNote,
   getYearlyNoteSettings,
